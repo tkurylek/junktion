@@ -18,4 +18,29 @@ public class DocumentBuilder extends Builder<Document> {
 	getBuildedObject().setContent(content);
 	return this;
     }
+
+    public DocumentBuilder withAuthor(String author) {
+	getBuildedObject().setAuthor(author);
+	return this;
+    }
+
+    public DocumentBuilder withLastModificationTime(String modificationTime) {
+	getBuildedObject().setModified(modificationTime);
+	return this;
+    }
+
+    public DocumentBuilder withPath(String path) {
+	getBuildedObject().setPath(path);
+	return this;
+    }
+
+    public DocumentBuilder withFilename(String filename) {
+	getBuildedObject().setFilename(filename);
+	return this;
+    }
+
+    public DocumentBuilder withSize(Long size) {
+	getBuildedObject().setSize(size);
+	return this;
+    }
 }

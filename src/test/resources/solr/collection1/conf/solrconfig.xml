@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
+<!--                                             -->
+<!-- This is junktion's test only config. Please -->
+<!-- do NOT use it in production system.         -->
+<!--                                             -->
 <config>
 	<luceneMatchVersion>LUCENE_41</luceneMatchVersion>
 	<dataDir>${solr.data.dir:}</dataDir>
@@ -18,12 +22,9 @@
 	</updateHandler>
 	<query>
 		<maxBooleanClauses>1024</maxBooleanClauses>
-		<filterCache class="solr.FastLRUCache" size="512"
-			initialSize="512" autowarmCount="0" />
-		<queryResultCache class="solr.LRUCache" size="512"
-			initialSize="512" autowarmCount="0" />
-		<documentCache class="solr.LRUCache" size="512"
-			initialSize="512" autowarmCount="0" />
+		<filterCache class="solr.FastLRUCache" size="512" initialSize="512" autowarmCount="0" />
+		<queryResultCache class="solr.LRUCache" size="512" initialSize="512" autowarmCount="0" />
+		<documentCache class="solr.LRUCache" size="512" initialSize="512" autowarmCount="0" />
 		<enableLazyFieldLoading>true</enableLazyFieldLoading>
 		<queryResultWindowSize>20</queryResultWindowSize>
 		<queryResultMaxDocsCached>200</queryResultMaxDocsCached>
@@ -42,8 +43,7 @@
 		<maxWarmingSearchers>2</maxWarmingSearchers>
 	</query>
 	<requestDispatcher handleSelect="false">
-		<requestParsers enableRemoteStreaming="true"
-			multipartUploadLimitInKB="2048000" formdataUploadLimitInKB="2048" />
+		<requestParsers enableRemoteStreaming="true" multipartUploadLimitInKB="2048000" formdataUploadLimitInKB="2048" />
 		<httpCaching never304="true" />
 	</requestDispatcher>
 	<requestHandler name="/select" class="solr.SearchHandler">
@@ -70,81 +70,6 @@
 			<str name="wt">json</str>
 			<str name="indent">true</str>
 		</lst>
-	</requestHandler>
-	<requestHandler name="/browse" class="solr.SearchHandler">
-		<lst name="defaults">
-			<str name="echoParams">explicit</str>
-			<str name="wt">velocity</str>
-			<str name="v.template">browse</str>
-			<str name="v.layout">layout</str>
-			<str name="title">Solritas</str>
-			<str name="defType">edismax</str>
-			<str name="qf">
-				text^0.5 features^1.0 name^1.2 sku^1.5 id^10.0 manu^1.1 cat^1.4
-				title^10.0 description^5.0 keywords^5.0 author^2.0 resourcename^1.0 attr_content^2.0
-			</str>
-			<str name="df">text</str>
-			<str name="mm">100%</str>
-			<str name="q.alt">*:*</str>
-			<str name="rows">10</str>
-			<str name="fl">*,score</str>
-			<str name="mlt.qf">
-				text^0.5 features^1.0 name^1.2 sku^1.5 id^10.0 manu^1.1 cat^1.4
-				title^10.0 description^5.0 keywords^5.0 author^2.0 resourcename^1.0
-			</str>
-			<str name="mlt.fl">text,features,name,sku,id,manu,cat,title,description,keywords,author,resourcename
-			</str>
-			<int name="mlt.count">3</int>
-			<str name="facet">on</str>
-			<str name="facet.field">cat</str>
-			<str name="facet.field">manu_exact</str>
-			<str name="facet.field">content_type</str>
-			<str name="facet.field">author_s</str>
-			<str name="facet.query">ipod</str>
-			<str name="facet.query">GB</str>
-			<str name="facet.mincount">1</str>
-			<str name="facet.pivot">cat,inStock</str>
-			<str name="facet.range.other">after</str>
-			<str name="facet.range">price</str>
-			<int name="f.price.facet.range.start">0</int>
-			<int name="f.price.facet.range.end">600</int>
-			<int name="f.price.facet.range.gap">50</int>
-			<str name="facet.range">popularity</str>
-			<int name="f.popularity.facet.range.start">0</int>
-			<int name="f.popularity.facet.range.end">10</int>
-			<int name="f.popularity.facet.range.gap">3</int>
-			<str name="facet.range">manufacturedate_dt</str>
-			<str name="f.manufacturedate_dt.facet.range.start">NOW/YEAR-10YEARS</str>
-			<str name="f.manufacturedate_dt.facet.range.end">NOW</str>
-			<str name="f.manufacturedate_dt.facet.range.gap">+1YEAR</str>
-			<str name="f.manufacturedate_dt.facet.range.other">before</str>
-			<str name="f.manufacturedate_dt.facet.range.other">after</str>
-			<str name="hl">on</str>
-			<str name="hl.fl">content features title name</str>
-			<str name="hl.encoder">html</str>
-			<str name="hl.simple.pre">&lt;b&gt;</str>
-			<str name="hl.simple.post">&lt;/b&gt;</str>
-			<str name="f.title.hl.fragsize">0</str>
-			<str name="f.title.hl.alternateField">title</str>
-			<str name="f.name.hl.fragsize">0</str>
-			<str name="f.name.hl.alternateField">name</str>
-			<str name="f.content.hl.snippets">3</str>
-			<str name="f.content.hl.fragsize">200</str>
-			<str name="f.content.hl.alternateField">content</str>
-			<str name="f.content.hl.maxAlternateFieldLength">750</str>
-			<str name="spellcheck">on</str>
-			<str name="spellcheck.extendedResults">false</str>
-			<str name="spellcheck.count">5</str>
-			<str name="spellcheck.alternativeTermCount">2</str>
-			<str name="spellcheck.maxResultsForSuggest">5</str>
-			<str name="spellcheck.collate">true</str>
-			<str name="spellcheck.collateExtendedResults">true</str>
-			<str name="spellcheck.maxCollationTries">5</str>
-			<str name="spellcheck.maxCollations">3</str>
-		</lst>
-		<arr name="last-components">
-			<str>spellcheck</str>
-		</arr>
 	</requestHandler>
 	<requestHandler name="/update" class="solr.UpdateRequestHandler">
 	</requestHandler>
@@ -189,49 +114,6 @@
 	</requestHandler>
 	<requestHandler name="/replication" class="solr.ReplicationHandler">
 	</requestHandler>
-	<searchComponent name="spellcheck" class="solr.SpellCheckComponent">
-		<str name="queryAnalyzerFieldType">textSpell</str>
-		<lst name="spellchecker">
-			<str name="name">default</str>
-			<str name="field">name</str>
-			<str name="classname">solr.DirectSolrSpellChecker</str>
-			<str name="distanceMeasure">internal</str>
-			<float name="accuracy">0.5</float>
-			<int name="maxEdits">2</int>
-			<int name="minPrefix">1</int>
-			<int name="maxInspections">5</int>
-			<int name="minQueryLength">4</int>
-			<float name="maxQueryFrequency">0.01</float>
-		</lst>
-		<lst name="spellchecker">
-			<str name="name">wordbreak</str>
-			<str name="classname">solr.WordBreakSolrSpellChecker</str>
-			<str name="field">name</str>
-			<str name="combineWords">true</str>
-			<str name="breakWords">true</str>
-			<int name="maxChanges">10</int>
-		</lst>
-	</searchComponent>
-	<requestHandler name="/spell" class="solr.SearchHandler"
-		startup="lazy">
-		<lst name="defaults">
-			<str name="df">text</str>
-			<str name="spellcheck.dictionary">default</str>
-			<str name="spellcheck.dictionary">wordbreak</str>
-			<str name="spellcheck">on</str>
-			<str name="spellcheck.extendedResults">true</str>
-			<str name="spellcheck.count">10</str>
-			<str name="spellcheck.alternativeTermCount">5</str>
-			<str name="spellcheck.maxResultsForSuggest">5</str>
-			<str name="spellcheck.collate">true</str>
-			<str name="spellcheck.collateExtendedResults">true</str>
-			<str name="spellcheck.maxCollationTries">10</str>
-			<str name="spellcheck.maxCollations">5</str>
-		</lst>
-		<arr name="last-components">
-			<str>spellcheck</str>
-		</arr>
-	</requestHandler>
 	<searchComponent name="tvComponent" class="solr.TermVectorComponent" />
 	<requestHandler name="/tvrh" class="solr.SearchHandler"
 		startup="lazy">
@@ -242,45 +124,7 @@
 		<arr name="last-components">
 			<str>tvComponent</str>
 		</arr>
-	</requestHandler>
-	<searchComponent name="clustering"
-		enable="${solr.clustering.enabled:false}" class="solr.clustering.ClusteringComponent">
-		<lst name="engine">
-			<str name="name">default</str>
-			<str name="carrot.algorithm">org.carrot2.clustering.lingo.LingoClusteringAlgorithm
-			</str>
-			<str name="LingoClusteringAlgorithm.desiredClusterCountBase">20</str>
-			<str name="carrot.lexicalResourcesDir">clustering/carrot2</str>
-			<str name="MultilingualClustering.defaultLanguage">POLISH</str>
-		</lst>
-		<lst name="engine">
-			<str name="name">stc</str>
-			<str name="carrot.algorithm">org.carrot2.clustering.stc.STCClusteringAlgorithm</str>
-		</lst>
-	</searchComponent>
-	<requestHandler name="/clustering" startup="lazy"
-		enable="${solr.clustering.enabled:false}" class="solr.SearchHandler">
-		<lst name="defaults">
-			<bool name="clustering">true</bool>
-			<str name="clustering.engine">default</str>
-			<bool name="clustering.results">true</bool>
-			<str name="carrot.title">name</str>
-			<str name="carrot.url">id</str>
-			<str name="carrot.snippet">features</str>
-			<bool name="carrot.produceSummary">true</bool>
-			<bool name="carrot.outputSubClusters">false</bool>
-			<str name="defType">edismax</str>
-			<str name="qf">
-				text^0.5 features^1.0 name^1.2 sku^1.5 id^10.0 manu^1.1 cat^1.4
-			</str>
-			<str name="q.alt">*:*</str>
-			<str name="rows">10</str>
-			<str name="fl">*,score</str>
-		</lst>
-		<arr name="last-components">
-			<str>clustering</str>
-		</arr>
-	</requestHandler>
+	</requestHandler>	
 	<searchComponent name="terms" class="solr.TermsComponent" />
 	<requestHandler name="/terms" class="solr.SearchHandler"
 		startup="lazy">
@@ -290,20 +134,6 @@
 		</lst>
 		<arr name="components">
 			<str>terms</str>
-		</arr>
-	</requestHandler>
-	<searchComponent name="elevator" class="solr.QueryElevationComponent">
-		<str name="queryFieldType">string</str>
-		<str name="config-file">elevate.xml</str>
-	</searchComponent>
-	<requestHandler name="/elevate" class="solr.SearchHandler"
-		startup="lazy">
-		<lst name="defaults">
-			<str name="echoParams">explicit</str>
-			<str name="df">text</str>
-		</lst>
-		<arr name="last-components">
-			<str>elevator</str>
 		</arr>
 	</requestHandler>
 	<searchComponent class="solr.HighlightComponent" name="highlight">
