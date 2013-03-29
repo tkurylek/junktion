@@ -9,7 +9,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import pl.kurylek.junktion.domain.Document;
-import pl.kurylek.junktion.dtos.DocumentSnaphot;
+import pl.kurylek.junktion.snapshots.DocumentSnaphot;
 import pl.kurylek.junktion.test.SolrIntegrationTestBase;
 
 public class DocumentSearchServiceTest extends SolrIntegrationTestBase {

@@ -20,8 +20,8 @@ public class SolrIntegrationTestBase {
     @Autowired
     SolrServer solrServer;
 
-    protected void savedInRepository(Document stringTheory) throws Exception {
-	solrServer.addBean(stringTheory);
+    protected void savedInRepository(Document document) throws Exception {
+	solrServer.addBean(document);
 	solrServer.commit();
     }
 

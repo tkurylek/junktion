@@ -1,4 +1,4 @@
-package pl.kurylek.junktion.dtos;
+package pl.kurylek.junktion.snapshots;
 
 import java.util.Date;
 import java.util.List;

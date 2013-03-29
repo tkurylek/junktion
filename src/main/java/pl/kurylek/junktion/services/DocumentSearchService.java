@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import pl.kurylek.junktion.domain.Document;
-import pl.kurylek.junktion.dtos.DocumentSnaphot;
 import pl.kurylek.junktion.repositories.DocumentRepository;
+import pl.kurylek.junktion.snapshots.DocumentSnaphot;
 
 @Component
 public class DocumentSearchService {

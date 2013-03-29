@@ -8,14 +8,30 @@
 
 	<mvc:annotation-driven />
 	<mvc:resources mapping="/resources/**" location="/resources/" />
+	<mvc:interceptors>
+		<bean id="localeChangeInterceptor"
+			class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+			<property name="paramName" value="ln" />
+		</bean>
+	</mvc:interceptors>
+	<context:component-scan base-package="pl.kurylek.junktion" />
+	<context:annotation-config />
+	<context:spring-configured />
+
+	<bean id="messageSource"
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basename" value="classpath:/i18n/messages" />
+		<property name="defaultEncoding" value="UTF-8" />
+	</bean>
+
+	<bean id="localeResolver"
+		class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
+		<property name="defaultLocale" value="pl" />
+	</bean>
 
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/views/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
-
-	<context:component-scan base-package="pl.kurylek.junktion" />
-	<context:annotation-config />
-	<context:spring-configured />
 </beans>

@@ -9,13 +9,14 @@ import java.util.Map;
 import org.springframework.stereotype.Component;
 
 import pl.kurylek.junktion.domain.Document;
-import pl.kurylek.junktion.dtos.DocumentSnaphot;
+import pl.kurylek.junktion.snapshots.DocumentSnaphot;
 
 @Component
 public class DocumentSnapshotMapper {
 
     public DocumentSnaphot map(Document document,
 	    Map<String, Map<String, List<String>>> documentsHighlightings) {
+
 	DocumentSnaphot documentSnaphot = new DocumentSnaphot();
 	documentSnaphot.setModified(document.getModified());
 	documentSnaphot.setPath(document.getPath());
