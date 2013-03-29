@@ -20,8 +20,8 @@ public class DocumentSearchService {
 
     public List<DocumentSnaphot> findByContentOrFilenameOrAuthor(String query) {
 	QueryResponse queryResponse = documentRepository.queryByContentOrFilenameOrAuthor(query);
-	List<DocumentSnaphot> documentSnapshots = documentSnapshotMapper.map(queryResponse.getBeans(Document.class),
-		queryResponse.getHighlighting());
+	List<DocumentSnaphot> documentSnapshots = documentSnapshotMapper.map(
+		queryResponse.getBeans(Document.class), queryResponse.getHighlighting());
 	return documentSnapshots;
     }
 }

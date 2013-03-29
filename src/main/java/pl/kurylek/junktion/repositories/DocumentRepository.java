@@ -11,11 +11,11 @@ import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import pl.kurylek.junktion.exceptions.DocumentRepositoryException;
 
-@Service
+@Component
 public class DocumentRepository {
 
     private static final int HIGHLIGHTED_SNIPPETS_QUANTITY = 2;

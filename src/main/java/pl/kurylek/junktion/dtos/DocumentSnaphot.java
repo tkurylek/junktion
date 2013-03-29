@@ -1,21 +1,22 @@
 package pl.kurylek.junktion.dtos;
 
+import java.util.Date;
 import java.util.List;
 
 public class DocumentSnaphot {
 
-    private String modified;
+    private Date modified;
     private String path;
     private String filename;
     private Long size;
     private String author;
     private List<String> highlights;
 
-    public String getModified() {
+    public Date getModified() {
 	return modified;
     }
 
-    public void setModified(String modified) {
+    public void setModified(Date modified) {
 	this.modified = modified;
     }
 

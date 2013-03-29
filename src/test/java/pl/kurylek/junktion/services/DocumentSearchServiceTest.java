@@ -29,9 +29,15 @@ public class DocumentSearchServiceTest extends SolrIntegrationTestBase {
 	savedInRepository(stringTheoryDocument);
 
 	// when
-	List<DocumentSnaphot> results = documentSearchService.findByContentOrFilenameOrAuthor("theory");
+	List<DocumentSnaphot> results = documentSearchService
+		.findByContentOrFilenameOrAuthor("theory");
 
 	// then
-	assertThat(results.get(FIRST).getPath()).isEqualTo(stringTheoryDocument.getPath());
+	DocumentSnaphot firstResult = results.get(FIRST);
+	assertThat(firstResult.getFilename()).isEqualTo(stringTheoryDocument.getFilename());
+	assertThat(firstResult.getModified()).isEqualTo(stringTheoryDocument.getModified());
+	assertThat(firstResult.getSize()).isEqualTo(stringTheoryDocument.getSize());
+	assertThat(firstResult.getPath()).isEqualTo(stringTheoryDocument.getPath());
+	assertThat(firstResult.getAuthor()).isEqualTo(stringTheoryDocument.getAuthor());
     }
 }

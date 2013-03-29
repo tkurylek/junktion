@@ -5,6 +5,7 @@ import static org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCod
 import static org.apache.commons.lang3.builder.ToStringBuilder.reflectionToString;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.apache.solr.client.solrj.beans.Field;
 
@@ -28,7 +29,7 @@ public class Document {
     private String author;
 
     @Field(MODIFIED_FIELD)
-    private String modified;
+    private Date modified;
 
     @Field(PATH_FIELD)
     private String path;
@@ -86,11 +87,11 @@ public class Document {
 	this.author = author;
     }
 
-    public String getModified() {
+    public Date getModified() {
 	return modified;
     }
 
-    public void setModified(String modified) {
+    public void setModified(Date modified) {
 	this.modified = modified;
     }
 
