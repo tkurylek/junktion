@@ -1,22 +1,17 @@
 package pl.kurylek.junktion.controllers;
 
+import static org.slf4j.LoggerFactory.getLogger;
+
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import pl.kurylek.junktion.repositories.DocumentRepository;
-
 @Controller
-public class HomeController {
+public class SearchController {
 
-    final Logger logger = LoggerFactory.getLogger(HomeController.class);
-
-    @Autowired
-    private DocumentRepository documentRepository;
+    final Logger logger = getLogger(getClass());
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView handleHomePage() {

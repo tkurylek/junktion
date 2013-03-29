@@ -15,7 +15,7 @@
 		<property name="suffix" value=".jsp" />
 	</bean>
 
-	<context:component-scan base-package="pl.kurylek.junktion.controllers" />
+	<context:component-scan base-package="pl.kurylek.junktion" />
 	<context:annotation-config />
 	<context:spring-configured />
 </beans>
