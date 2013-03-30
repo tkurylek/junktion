@@ -1,7 +1,6 @@
 <%@tag description="Overall Page template" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
-<%@attribute name="header" fragment="true"%>
 <%@attribute name="footer" fragment="true"%>
 <%@attribute name="additionalHead" fragment="true"%>
 <!DOCTYPE html>
@@ -44,16 +43,11 @@
 			</div>
 		</div>
 
-
 		<div class="container text-center">
-			<div class="page-header">
-				<jsp:invoke fragment="header"/>
-			</div>
 			<jsp:doBody/>
 		</div>
 		<div id="push"></div>
 	</div>
-	
 	
 	<div id="footer">
 		<div class="container">

@@ -13,9 +13,9 @@ public class SearchController {
 
     final Logger logger = getLogger(getClass());
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ModelAndView handleHomePage() {
-	ModelAndView model = new ModelAndView("index");
+    @RequestMapping(value = { "/", "/search" }, method = RequestMethod.GET)
+    public ModelAndView handleSearchPage() {
+	ModelAndView model = new ModelAndView("search");
 	return model;
     }
 }
