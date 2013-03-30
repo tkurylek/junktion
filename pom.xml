@@ -55,6 +55,7 @@
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
+
 		<!-- Spring data solr -->
 		<dependency>
 			<groupId>org.springframework.data</groupId>
