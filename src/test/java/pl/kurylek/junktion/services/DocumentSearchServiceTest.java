@@ -20,7 +20,7 @@ public class DocumentSearchServiceTest extends SolrIntegrationTestBase {
     DocumentSearchService documentSearchService;
 
     @Autowired
-    DocumentSnapshotMapper documentSnapshotMapper;
+    DocumentMapperService documentSnapshotMapper;
 
     @Test
     public void shouldFindByContentOrFilenameOrAuthor() throws Exception {
@@ -30,7 +30,7 @@ public class DocumentSearchServiceTest extends SolrIntegrationTestBase {
 
 	// when
 	List<DocumentSnaphot> results = documentSearchService
-		.findByContentOrFilenameOrAuthor("theory");
+		.findByContentOrFilenameOrAuthorOrPathOrTitle("theory");
 
 	// then
 	DocumentSnaphot firstResult = results.get(FIRST);

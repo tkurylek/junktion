@@ -1,6 +1,7 @@
-<%@ page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <t:genericpage>
 	<jsp:attribute name="footer">
@@ -11,27 +12,29 @@
 				Unported License</a>.
 		</p>
 	</jsp:attribute>
+	<jsp:attribute name="additionalJavascript">
+		<script src="<c:url value="/resources/js/plugins/asynchSearch.js" />"></script>
+		<script language="javascript">
+			$('.search-bar').asynchSearch({
+				url : '/search',
+				form : '.form-search',
+				results : '.search-results'
+			});
+		</script>
+	</jsp:attribute>
 	<jsp:body>
 		<div class="page-header">
-			<form class="form-search">
+			<form class="form-search" method="get">
 				<div class="input-append lead">
-					<input type="text" class="search-query span6" placeholder="<spring:message code="home.search"/>">
-					<button class="btn btn-large" type="button">
+					<input type="text" class="search-bar search-query span6" placeholder="<spring:message code="home.search"/>">
+					<button class="btn btn-large" type="submit">
 						<i class="icon-search"></i>
 					</button>
 				</div>
 			</form>
 		</div>
-		<div class="text-left">
-			<blockquote>
-				<dl>
-					<dt>Document title</dt>
-					<dd>
-						This is a document content with <em class="text-info">highlighted word</em> in it.
-						<small class=" muted pull-right">/the/path/to/file.pdf</small>
-					</dd>
-				</dl>
-			</blockquote>
+		<div class="text-left search-results">
+			<p class="text-center">Wpisz interesujące Cię zapytanie</p>
 		</div>
 	</jsp:body>
 </t:genericpage>

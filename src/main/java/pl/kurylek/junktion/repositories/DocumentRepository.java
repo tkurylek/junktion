@@ -5,17 +5,19 @@ import static pl.kurylek.junktion.builders.SolrQueryBuilder.aQuery;
 import static pl.kurylek.junktion.domain.Document.AUTHOR_FIELD;
 import static pl.kurylek.junktion.domain.Document.CONTENT_FIELD;
 import static pl.kurylek.junktion.domain.Document.FILENAME_FIELD;
+import static pl.kurylek.junktion.domain.Document.PATH_FIELD;
+import static pl.kurylek.junktion.domain.Document.TITLE_FIELD;
 
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import pl.kurylek.junktion.exceptions.DocumentRepositoryException;
 
-@Component
+@Repository
 public class DocumentRepository {
 
     private static final int HIGHLIGHTED_SNIPPETS_QUANTITY = 2;
@@ -23,17 +25,17 @@ public class DocumentRepository {
     @Autowired
     private SolrServer solrServer;
 
-    public QueryResponse queryByContentOrFilenameOrAuthor(String query) {
+    public QueryResponse queryByContentOrFilenameOrAuthorOrPathOrTitle(String query) {
 	try {
 	    QueryResponse queryResponse = solrServer.query(aQuery(query)
-		    .withinFields(CONTENT_FIELD, FILENAME_FIELD, AUTHOR_FIELD).withExtendedDisjunctionMax()
-		    .withEnabledHighlighting().withHighlightedSnippets(HIGHLIGHTED_SNIPPETS_QUANTITY).build());
+		    .withinFields(CONTENT_FIELD, FILENAME_FIELD, AUTHOR_FIELD, PATH_FIELD,
+			    TITLE_FIELD).withExtendedDisjunctionMax().withEnabledHighlighting()
+		    .withHighlightedSnippets(HIGHLIGHTED_SNIPPETS_QUANTITY).build());
 	    return queryResponse;
 
 	} catch (SolrServerException e) {
 	    logger.error(e.getMessage());
-	    throw new DocumentRepositoryException("Could not query for document matching \"" + query
-		    + "\". Solr server exception: ", e);
+	    throw new DocumentRepositoryException(query, e);
 	}
     }
 }

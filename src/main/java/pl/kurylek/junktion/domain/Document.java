@@ -11,6 +11,7 @@ import org.apache.solr.client.solrj.beans.Field;
 
 public class Document {
 
+    public static final String TITLE_FIELD = "attr_title";
     public static final String SIZE_FIELD = "attr_size";
     public static final String FILENAME_FIELD = "attr_filename";
     public static final String PATH_FIELD = "attr_path";
@@ -21,6 +22,9 @@ public class Document {
 
     @Field(ID_FIELD)
     private String id;
+
+    @Field(TITLE_FIELD)
+    private String title;
 
     @Field(CONTENT_FIELD)
     private ArrayList<String> content = new ArrayList<>();
@@ -48,6 +52,14 @@ public class Document {
 	this.id = id;
     }
 
+    public String getTitle() {
+	return title;
+    }
+
+    public void setTitle(String title) {
+	this.title = title;
+    }
+
     public String getContent() {
 	return content.get(0);
     }
@@ -62,21 +74,6 @@ public class Document {
 	} else {
 	    this.content.add(content);
 	}
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-	return reflectionEquals(this, obj);
-    }
-
-    @Override
-    public int hashCode() {
-	return reflectionHashCode(this);
-    }
-
-    @Override
-    public String toString() {
-	return reflectionToString(this);
     }
 
     public String getAuthor() {
@@ -117,5 +114,20 @@ public class Document {
 
     public void setSize(Long size) {
 	this.size = size;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+	return reflectionEquals(this, obj);
+    }
+
+    @Override
+    public int hashCode() {
+	return reflectionHashCode(this);
+    }
+
+    @Override
+    public String toString() {
+	return reflectionToString(this);
     }
 }

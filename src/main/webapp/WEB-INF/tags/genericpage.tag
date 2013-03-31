@@ -3,12 +3,14 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@attribute name="footer" fragment="true"%>
 <%@attribute name="additionalHead" fragment="true"%>
+<%@attribute name="additionalJavascript" fragment="true"%>
 <!DOCTYPE html>
 <html>
 <head>
 <title>Junktion</title>
 <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
 <link href="<c:url value="/resources/bootstrap/css/bootstrap.css" />" rel="stylesheet" media="screen">
+<script src="<c:url value="/resources/js/jquery-1.9.1.min.js" />"></script>
 <link href="<c:url value="/resources/css/general.css" />"rel="stylesheet" media="screen">
 <jsp:invoke fragment="additionalHead"></jsp:invoke>
 </head>
@@ -17,12 +19,12 @@
 		<div class="navbar navbar-fixed-top">
 			<div class="navbar-inner">
 				<div class="container">
-					<a class="brand" href="#">junktion</a>
+					<a class="brand" href="/">junktion</a>
 					<div class="nav-collapse collapse">
 						<ul class="nav">
-							<li class="active"><a href="#"><spring:message code="nav.home"/></a></li>
+							<li class="active"><a href="/"><spring:message code="nav.home"/></a></li>
 							<li><a href="#about"><spring:message code="nav.about"/></a></li>
-							<li><a href="help"><spring:message code="nav.help"/></a></li>
+							<li><a href="#help"><spring:message code="nav.help"/></a></li>
 							<li class="divider-vertical"></li>
 							<li><a href="#fork" class="pull-right">Fork on github</a></li>
 						</ul>
@@ -43,7 +45,7 @@
 			</div>
 		</div>
 
-		<div class="container text-center">
+		<div class="container text-center" style="display:none;">
 			<jsp:doBody/>
 		</div>
 		<div id="push"></div>
@@ -54,5 +56,11 @@
 			<jsp:invoke fragment="footer"/>
 		</div>
 	</div>
+	
+	<!-- Scripts -->
+	<jsp:invoke fragment="additionalJavascript"></jsp:invoke>
+	<script language="javascript">
+		$(".container").fadeIn('slow');
+	</script>
 </body>
 </html>
