@@ -1,5 +1,5 @@
 // -- asynchSearch.js
-// Requires jQuery
+// requires jQuery, intelligentPopover
 (function($) {
 	var Search = {
 		init : function(options, elem) {
@@ -41,7 +41,7 @@
 			var self = this;
 			self.$results.html(''); // clear the results
 			self.skip = 0;
-			if(self.$elem.val().length > 0 && location.hash.indexOf('#'+self.url) !== -1) {
+			if(location.hash.indexOf('#'+self.url) !== -1) {
 				self.updateSearchBar();
 				self.fetchAndPresentResults();
 			} else { // if the location bar is not readable go to the home page
@@ -59,8 +59,9 @@
 		// fetches and presents results
 		, fetchAndPresentResults : function() {
 			var self = this;
-			self.display(self.loadingBarHtml);
 			
+			if(self.$elem.val().length > 0) {
+			self.display(self.loadingBarHtml);
 			self.fetch(self.skip)
 				.done(function(results) {
 					self.display(self.generateHtml(results));
@@ -70,6 +71,7 @@
 				}).always(function() {
 					$(self.loadingBarId).remove();
 				});
+			}
 		}
 		
 		// displays error message
@@ -85,12 +87,23 @@
 			var self = this;
 			var html = '';
 			$.each(results, function(i, document){
-				self.$results.append('<blockquote><dl>'
-						+'<dt><i class="icon-file"></i>'+document['title']+' <span>'+document['filename']+'</span></dt>'
+				var documentId = 'asynchSearch'+self.skip+'v'+i;
+				self.$results
+					.append('<blockquote id="'+documentId+'"><dl>'
+						+'<dt>'+document['filename']+' <span class="document-title hidden-phone"> - '+document['title']+'</span></dt>'
 						+'<dd>'+(document['highlights'].join(' [...] '))+'</dd>'
-						+'<small class="muted pull-right">'+document['path']+'</small>'
+						+'<small class="muted pull-right visible-desktop">'+document['path']+'</small>'
 						+'</dl></blockquote>'
 						+'<hr>');
+				$('#'+documentId).intelligentPopover({
+					content : '<div class="btn-toolbar">'
+						+'<div class="btn-group">'
+							+'<a class="btn btn-small" href="#"><i class="icon-info-sign"></i></a>'
+							+'<a class="btn btn-small" href="#"><i class="icon-eye-open"></i></a>'
+							+'<a class="btn btn-small" href="#"><i class="icon-download-alt"></i></a>'
+						+'</div>'
+					+'</div>'
+				});
 			});
 			self.appendMoreButtonIfNecessary(results);
 		}

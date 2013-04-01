@@ -11,3 +11,10 @@
 pre {
 	text-align: left !important;
 }
+.popover {
+	left: 8% !important;
+}
+.document-title {
+	color: #777;
+	font-weight:normal;
+}

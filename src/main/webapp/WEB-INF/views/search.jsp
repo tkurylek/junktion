@@ -1,14 +1,13 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.util.Locale "%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
 <t:genericpage>
 	<jsp:attribute name="footer">
 		<p class="muted credit text-right">
 			<spring:message code="footer.codeIsHostedOn" />
-			<a href="https://github.com/tkurylek/junktion">github</a>.
-			<i class="icon-heart"></i>
+			<a href="https://github.com/tkurylek/junktion">github.com</a>.
 		</p>
 	</jsp:attribute>
 	<jsp:attribute name="additionalHead">
@@ -16,6 +15,7 @@
 			rel="stylesheet" media="screen">
 	</jsp:attribute>
 	<jsp:attribute name="additionalJavascript">
+		<script src="<c:url value="/resources/js/plugins/intelligentPopover.js" />"></script>
 		<script src="<c:url value="/resources/js/plugins/asynchSearch.js" />"></script>
 		<script language="javascript">
 			$('.search-bar').asynchSearch({
