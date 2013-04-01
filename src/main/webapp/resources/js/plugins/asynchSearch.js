@@ -24,7 +24,6 @@
 			var self = this;
 			self.$form.submit(function() {
 				location.hash = self.url+self.$elem.val();
-				self.skip = 0;
 				return false;
 			});
 		}
@@ -42,6 +41,7 @@
 		, searchWithHash : function() {
 			var self = this;
 			self.$results.html(''); // clear the results
+			self.skip = 0;
 			if(location.hash.indexOf('#'+self.url) !== -1) {
 				self.updateSearchBar();
 				self.fetchAndPresentResults();
