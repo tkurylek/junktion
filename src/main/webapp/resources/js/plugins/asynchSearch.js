@@ -67,6 +67,7 @@
 					self.display(self.generateHtml(results));
 				})
 				.fail(function(reason) {
+					console.log(reason);
 					self.displayErrorMessage(reason['responseText']);
 				}).always(function() {
 					$(self.loadingBarId).remove();
@@ -90,9 +91,9 @@
 				var documentId = 'asynchSearch'+self.skip+'v'+i;
 				self.$results
 					.append('<blockquote id="'+documentId+'"><dl>'
-						+'<dt>'+document['filename']+' <span class="document-title hidden-phone"> - '+document['title']+'</span></dt>'
+						+'<dt>'+document['filename']+' <span class="document-title"> - '+document['title']+'</span></dt>'
 						+'<dd>'+(document['highlights'].join(' [...] '))+'</dd>'
-						+'<small class="muted pull-right visible-desktop">'+document['path']+'</small>'
+						+'<small class="muted pull-right hidden-phone">'+document['path']+'</small>'
 						+'</dl></blockquote>'
 						+'<hr>');
 				$('#'+documentId).intelligentPopover({

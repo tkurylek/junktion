@@ -26,8 +26,10 @@ html,body {
 	}
 }
 
-#wrap>.container {
-	padding-top: 60px;
+@media ( min-width: 980px) {
+	#wrap>.container {
+		padding-top: 60px;
+	}
 }
 
 .container .credit {
