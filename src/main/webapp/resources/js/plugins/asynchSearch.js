@@ -5,53 +5,84 @@
 			var self = this;
 			self.elem = elem;
 			self.$elem = $(elem);
-			self.loadingBarHtml = '<div class="progress progress-striped active text-center"><div class="bar" style="width: 100%;"></div></div>';
+			self.loadingBarHtml = '<div id="asynchSearch-loading" class="progress progress-striped active text-center"><div class="bar" style="width: 100%;"></div></div>';
+			self.loadingBarId = '#asynchSearch-loading';
+			self.moreButtonHtml = '<div id="asynchSearch-more" class="well text-center">more</div>';
+			self.moreButtonId = '#asynchSearch-more';
 			self.options = $.extend({}, $.fn.asynchSearch.options , options);
+			self.skip = 0;
 			self.url = self.options['url'];
 			self.$results = $(self.options.results);
+			self.$results.html('');
 			self.$form = $(self.options['form']);
-			self.presentResultsOnSubmit();
-			self.searchWithHashOnHashChange();
+			self.updateHashOnSubmit();
+			self.searchOnHashChange();
 		}
-		, searchWithHash : function() {
+		
+		// updates hash when form is submitted
+		, updateHashOnSubmit : function() {
 			var self = this;
-			if(location.hash.indexOf('#'+self.url) !== -1) {
-				self.$elem.val(location.hash.replace('#'+self.url,''));
-				self.presentResults();
-			} else {
-				self.$elem.val('');
-				self.$results.html('');
-			}
+			self.$form.submit(function() {
+				location.hash = self.url+self.$elem.val();
+				self.skip = 0;
+				return false;
+			});
 		}
-		, searchWithHashOnHashChange : function() {
+		
+		// triggers searching when hash is changed
+		, searchOnHashChange : function() {
 			var self = this;
 			self.searchWithHash();
 			$(window).on('hashchange', function() {
 				self.searchWithHash();
 			});
 		}
-		, presentResultsOnSubmit : function() {
+		
+		// triggers function to search for documents
+		, searchWithHash : function() {
 			var self = this;
-			self.$form.submit(function() {
-				location.hash = self.url+self.$elem.val();
-				return false;
-			});
+			self.$results.html(''); // clear the results
+			if(location.hash.indexOf('#'+self.url) !== -1) {
+				self.updateSearchBar();
+				self.fetchAndPresentResults();
+			} else { // if the location bar is not readable go to the home page
+				self.$elem.val('');
+				self.$results.html('');
+			}
 		}
-		, presentResults : function() {
+		
+		// updates search bar to show the same phrase as location bar
+		, updateSearchBar : function() {
+			var self = this;
+			self.$elem.val(location.hash.replace('#'+self.url,''));
+		}
+		
+		// fetches and presents results
+		, fetchAndPresentResults : function() {
 			var self = this;
 			self.display(self.loadingBarHtml);
-			self.fetch()
+			
+			self.fetch(self.skip)
 				.done(function(results) {
 					self.display(self.generateHtml(results));
 				})
 				.fail(function(reason) {
-					self.display('<div class="text-center"><span class="alert alert-error">'+reason['responseText']+'</span></div>');
+					self.displayErrorMessage(reason['responseText']);
+				}).always(function() {
+					$(self.loadingBarId).remove();
 				});
 		}
+		
+		// displays error message
+		, displayErrorMessage : function(message) {
+			var self = this;
+			self.display('<div class="text-center"><span class="alert alert-error">'+message+'</span></div>');
+		}
+		
+		// generates html for each document
 		, generateHtml: function(results) {
 			var self = this;
 			var html = '';
-			self.$results.html(''); 
 			$.each(results, function(i, document){
 				self.$results.append('<blockquote><dl>'
 						+'<dt><i class="icon-file"></i>'+document['title']+' <span>'+document['filename']+'</span></dt>'
@@ -60,16 +91,33 @@
 						+'</dl></blockquote>'
 						+'<hr>');
 			});
+			self.appendMoreButtonIfNecessary(results);
 		}
+		
+		// adds 'more' button when there might be more results
+		, appendMoreButtonIfNecessary : function(results) {
+			var self = this;
+			self.skip += results.length;
+			if(results.length >= 10) {
+				self.$results.append(self.moreButtonHtml);
+				$(self.moreButtonId).click(function() {
+					$(self.moreButtonId).remove();
+					self.fetchAndPresentResults();
+				});
+			}
+		}
+		
+		// displays results
 		, display : function(html) {
 			var self = this;
-			self.$results.hide().html(html).fadeIn('fast');
+			self.$results.append(html);
 		}
-		, fetch : function() {
+		
+		// fetches for documents
+		, fetch : function(skip) {
 			var self = this;
-			console.log('fetching..');
 			return $.ajax({
-				url : self.url+self.$elem.val()
+				url : self.url+self.$elem.val()+"/"+skip
 				, dataType : 'json'
 				, data : {}
 			});
