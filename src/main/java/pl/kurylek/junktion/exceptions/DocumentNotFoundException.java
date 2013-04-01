@@ -4,6 +4,6 @@ package pl.kurylek.junktion.exceptions;
 public class DocumentNotFoundException extends RuntimeException {
 
     public DocumentNotFoundException(String query) {
-	super("Could not find document matching query: " + query);
+	super("Could not find any document matching query: \"" + query + "\"");
     }
 }

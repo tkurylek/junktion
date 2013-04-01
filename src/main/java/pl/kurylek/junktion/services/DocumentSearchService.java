@@ -18,8 +18,8 @@ public class DocumentSearchService {
     @Autowired
     private DocumentMapperService documentMapperService;
 
-    public List<DocumentSnaphot> findByContentOrFilenameOrAuthorOrPathOrTitle(String query) {
-	QueryResponse queryResponse = documentLoader.loadByContentOrFilenameOrAuthorOrPathOrTitle(query);
+    public List<DocumentSnaphot> findByContentOrAuthorOrTitleOrPath(String query) {
+	QueryResponse queryResponse = documentLoader.loadByContentOrAuthorOrTitleOrPath(query);
 	List<DocumentSnaphot> documentSnapshots = documentMapperService.map(
 		queryResponse.getBeans(Document.class), queryResponse.getHighlighting());
 	return documentSnapshots;

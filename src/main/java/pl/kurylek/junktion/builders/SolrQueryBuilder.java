@@ -6,6 +6,7 @@ import org.apache.solr.client.solrj.SolrQuery;
 
 public class SolrQueryBuilder {
 
+    private static final String BOOST_PREFIX = "^";
     public static final String QUERY_EDISMAX = "edismax";
     public static final String QUERY_PARSER_TYPE_PARAMETER = "defType";
     public static final String QUERY_FIELDS_PARAMETER = "qf";
@@ -47,12 +48,50 @@ public class SolrQueryBuilder {
 	return this;
     }
 
-    public SolrQueryBuilder withHighlightedSnippets(int quantity) {
+    public SolrQueryBuilder withNumberOfHighlightedSnippets(int quantity) {
 	solrQuery.setHighlightSnippets(quantity);
+	return this;
+    }
+
+    public SolrQueryBuilder withinField(String field) {
+	solrQuery.set(QUERY_FIELDS_PARAMETER, field);
+	return this;
+    }
+
+    public SolrQueryBuilder orWithinField(String field) {
+	append(QUERY_FIELDS_PARAMETER, field);
+	return this;
+    }
+
+    private void append(String name, String value) {
+	if (solrQuery.get(name) != null) {
+	    solrQuery.set(name, solrQuery.get(name) + " " + value);
+	} else {
+	    solrQuery.set(name, value);
+	}
+    }
+
+    public SolrQueryBuilder withinBoostedField(String field, int boost) {
+	solrQuery.set(QUERY_FIELDS_PARAMETER, field + BOOST_PREFIX + boost);
+	return this;
+    }
+
+    public SolrQueryBuilder withinBoostedField(String field, String boost) {
+	solrQuery.set(QUERY_FIELDS_PARAMETER, field + BOOST_PREFIX + boost);
 	return this;
     }
 
     public SolrQuery build() {
 	return solrQuery;
+    }
+
+    public SolrQueryBuilder orWithinBoostedField(String field, int boost) {
+	append(QUERY_FIELDS_PARAMETER, field + BOOST_PREFIX + boost);
+	return this;
+    }
+
+    public SolrQueryBuilder orWithinBoostedField(String field, String boost) {
+	append(QUERY_FIELDS_PARAMETER, field + BOOST_PREFIX + boost);
+	return this;
     }
 }

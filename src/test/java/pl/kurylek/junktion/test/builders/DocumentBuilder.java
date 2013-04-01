@@ -45,4 +45,9 @@ public class DocumentBuilder extends Builder<Document> {
 	getBuildedObject().setSize(size);
 	return this;
     }
+
+    public DocumentBuilder withTitle(String title) {
+	getBuildedObject().setTitle(title);
+	return this;
+    }
 }

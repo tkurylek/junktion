@@ -1,35 +1,61 @@
+//Requires jQuery
 (function($) {
 	var Search = {
 		init : function(options, elem) {
 			var self = this;
 			self.elem = elem;
 			self.$elem = $(elem);
+			self.loadingBarHtml = '<div class="progress progress-striped active text-center"><div class="bar" style="width: 100%;"></div></div>';
 			self.options = $.extend({}, $.fn.asynchSearch.options , options);
-			if(location.hash.indexOf('#'+self.options.servicePath) !== -1) {
-				self.$elem.val(location.hash.replace('#'+self.options.servicePath,''));
-			}
-			self.cycle();
+			self.url = self.options['url'];
+			self.$results = $(self.options.results);
+			self.$form = $(self.options['form']);
+			self.presentResultsOnSubmit();
+			self.searchWithHashOnHashChange();
 		}
-		, cycle : function() {
+		, searchWithHash : function() {
 			var self = this;
-			$(self.options['form']).submit(function() {
-				self.display('<div class="progress progress-striped active text-center"><div class="bar" style="width: 100%;"></div></div>');
-				self.fetch()
-					.done(function(results) {
-						self.display(self.generateHtml(results));
-					})
-					.fail(function() {
-						self.display('<p class="text-center">Brak wyników :(</p>');
-					});
+			if(location.hash.indexOf('#'+self.url) !== -1) {
+				self.$elem.val(location.hash.replace('#'+self.url,''));
+				self.$form.submit();
+			} else {
+				location.hash = '';
+				self.$elem.val('');
+				self.$results.html('');
+			}
+		}
+		
+		, searchWithHashOnHashChange : function() {
+			var self = this;
+			self.searchWithHash();
+			$(window).on('hashchange', function() {
+				self.searchWithHash();
+			});
+		}
+		, presentResultsOnSubmit : function() {
+			var self = this;
+			self.$form.submit(function() {
+				self.presentResults();
 				return false;
 			});
+		}
+		, presentResults : function() {
+			var self = this;
+			self.display(self.loadingBarHtml);
+			self.fetch()
+				.done(function(results) {
+					self.display(self.generateHtml(results));
+				})
+				.fail(function(reason) {
+					self.display('<div class="text-center"><span class="alert alert-error">'+reason['responseText']+'</span></div>');
+				});
 		}
 		, generateHtml: function(results) {
 			var self = this;
 			var html = '';
-			$(self.options.results).html(''); 
+			self.$results.html(''); 
 			$.each(results, function(i, document){
-				$(self.options.results).append('<blockquote><dl>'
+				self.$results.append('<blockquote><dl>'
 						+'<dt><i class="icon-file"></i>'+document['title']+' <span class="">'+document['filename']+'</span></dt>'
 						+'<dd>'+(document['highlights'].join(' [...] '))+'</dd>'
 						+'<small class="muted pull-right">'+document['path']+'</small>'
@@ -38,13 +64,14 @@
 			});
 		}
 		, display : function(html) {
-			$(this.options.results).hide().html(html).fadeIn('fast');
+			var self = this;
+			self.$results.hide().html(html).fadeIn('fast');
 		}
 		, fetch : function() {
 			var self = this;
-			location.hash = self.options.servicePath+self.$elem.val();
+			location.hash = self.url+self.$elem.val();
 			return $.ajax({
-				url : self.options.servicePath+self.$elem.val()
+				url : self.url+self.$elem.val()
 				, dataType : 'json'
 				, data : {}
 			});
@@ -61,7 +88,7 @@
 	
 	$.fn.asynchSearch.options = {
 		results : '.results',
-		servicePath : '/search/',
+		url : '/search/',
 		form : 'form'
 	};
 })(jQuery);

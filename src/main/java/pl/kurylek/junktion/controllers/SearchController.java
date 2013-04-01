@@ -5,9 +5,11 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 import java.util.List;
+import java.util.Locale;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +30,9 @@ public class SearchController {
     @Autowired
     private DocumentSearchService documentSearchService;
 
+    @Autowired
+    private MessageSource messageSource;
+
     @RequestMapping(value = { "/" }, method = GET)
     public ModelAndView handleSearchPage() {
 	ModelAndView model = new ModelAndView("search");
@@ -37,15 +42,15 @@ public class SearchController {
     @RequestMapping(value = { "/search/{query}" }, method = GET, produces = "application/json")
     @ResponseBody
     public List<DocumentSnaphot> getDocumentsByContentOrFilenameOrAuthor(@PathVariable String query) {
-	logger.info("Requested documents matching " + query);
-	return documentSearchService.findByContentOrFilenameOrAuthorOrPathOrTitle(query);
+	logger.info("Requested documents matching \"" + query + "\"");
+	return documentSearchService.findByContentOrAuthorOrTitleOrPath(query);
     }
 
     @ExceptionHandler(DocumentNotFoundException.class)
     @ResponseStatus(value = NOT_FOUND)
     @ResponseBody
-    public String handleDocumentNotFoundException(DocumentNotFoundException dnfe) {
+    public String handleDocumentNotFoundException(DocumentNotFoundException dnfe, Locale locale) {
 	logger.error("Document not found!", dnfe);
-	return "Document not found!" + " " + dnfe.getMessage();
+	return messageSource.getMessage("error.documentNotFound", null, locale);
     }
 }

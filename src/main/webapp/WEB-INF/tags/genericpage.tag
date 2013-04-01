@@ -60,7 +60,7 @@
 	<!-- Scripts -->
 	<jsp:invoke fragment="additionalJavascript"></jsp:invoke>
 	<script language="javascript">
-		$(".container").fadeIn('slow');
+		$(".container").slideDown('slow');
 	</script>
 </body>
 </html>

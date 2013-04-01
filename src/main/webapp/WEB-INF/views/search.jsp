@@ -16,7 +16,7 @@
 		<script src="<c:url value="/resources/js/plugins/asynchSearch.js" />"></script>
 		<script language="javascript">
 			$('.search-bar').asynchSearch({
-				url : '/search',
+				url : '/search/',
 				form : '.form-search',
 				results : '.search-results'
 			});
@@ -34,7 +34,7 @@
 			</form>
 		</div>
 		<div class="text-left search-results">
-			<p class="text-center">Wpisz interesujące Cię zapytanie</p>
+			<p class="text-center"><spring:message code="home.header"/></p>
 		</div>
 	</jsp:body>
 </t:genericpage>
