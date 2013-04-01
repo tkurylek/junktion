@@ -59,7 +59,7 @@
 	<!-- Scripts -->
 	<jsp:invoke fragment="additionalJavascript"></jsp:invoke>
 	<script language="javascript">
-		$(".container").delay(500).slideDown('slow');
+		$(".container").delay(500).fadeIn('slow');
 	</script>
 </body>
 </html>

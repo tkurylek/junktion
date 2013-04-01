@@ -1,0 +1,10 @@
+#asynchSearch-loading {
+	height: 30px;
+}
+#asynchSearch-more {
+	margin-top: 20px;
+	margin-bottom: 50px;
+	width: 95%;
+	cursor: pointer;
+	cursor: hand;
+}

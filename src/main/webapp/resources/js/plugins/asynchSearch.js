@@ -1,19 +1,18 @@
-//Requires jQuery
+// -- asynchSearch.js
+// Requires jQuery
 (function($) {
 	var Search = {
 		init : function(options, elem) {
 			var self = this;
 			self.elem = elem;
 			self.$elem = $(elem);
+			self.options = $.extend({}, $.fn.asynchSearch.options , options);
 			self.loadingBarHtml = '<div id="asynchSearch-loading" class="progress progress-striped active text-center"><div class="bar" style="width: 100%;"></div></div>';
 			self.loadingBarId = '#asynchSearch-loading';
-			self.moreButtonHtml = '<div id="asynchSearch-more" class="well text-center">more</div>';
+			self.moreButtonHtml = '<div id="asynchSearch-more" class="btn btn-large btn-primary text-center">'+self.options['more']+'</div>';
 			self.moreButtonId = '#asynchSearch-more';
-			self.options = $.extend({}, $.fn.asynchSearch.options , options);
-			self.skip = 0;
 			self.url = self.options['url'];
 			self.$results = $(self.options.results);
-			self.$results.html('');
 			self.$form = $(self.options['form']);
 			self.updateHashOnSubmit();
 			self.searchOnHashChange();
@@ -135,6 +134,7 @@
 	$.fn.asynchSearch.options = {
 		results : '.results',
 		url : '/search/',
-		form : 'form'
+		form : 'form',
+		more : 'more'
 	};
 })(jQuery);
