@@ -1,4 +1,4 @@
-package pl.kurylek.junktion.exceptions;
+package pl.kurylek.junktion.loaders.exceptions;
 
 @SuppressWarnings("serial")
 public class DocumentNotFoundException extends RuntimeException {

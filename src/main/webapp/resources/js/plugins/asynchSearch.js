@@ -9,7 +9,7 @@
 			self.options = $.extend({}, $.fn.asynchSearch.options , options);
 			self.loadingBarHtml = '<div id="asynchSearch-loading" class="progress progress-striped active text-center"><div class="bar" style="width: 100%;"></div></div>';
 			self.loadingBarId = '#asynchSearch-loading';
-			self.moreButtonHtml = '<div id="asynchSearch-more" class="btn btn-large btn-primary text-center">'+self.options['more']+'</div>';
+			self.moreButtonHtml = '<ul id="asynchSearch-more" class="pager"><li><a style="width:100%">'+self.options['more']+'</a></li></ul>';
 			self.moreButtonId = '#asynchSearch-more';
 			self.url = self.options['url'];
 			self.$results = $(self.options.results);
@@ -41,7 +41,7 @@
 			var self = this;
 			self.$results.html(''); // clear the results
 			self.skip = 0;
-			if(location.hash.indexOf('#'+self.url) !== -1) {
+			if(self.$elem.val().length > 0 && location.hash.indexOf('#'+self.url) !== -1) {
 				self.updateSearchBar();
 				self.fetchAndPresentResults();
 			} else { // if the location bar is not readable go to the home page
@@ -75,7 +75,9 @@
 		// displays error message
 		, displayErrorMessage : function(message) {
 			var self = this;
-			self.display('<div class="text-center"><span class="alert alert-error">'+message+'</span></div>');
+			self.display('<div class="alert alert-error text-center">'
+					+message+'<a class="close" data-dismiss="alert" href="#">'
+					+'&times;</a></div>');
 		}
 		
 		// generates html for each document

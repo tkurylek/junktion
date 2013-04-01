@@ -9,8 +9,9 @@
 <head>
 <title>Junktion</title>
 <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
-<link href="<c:url value="/resources/bootstrap/css/bootstrap.css" />" rel="stylesheet" media="screen">
+<link href="<c:url value="/resources/bootstrap/css/bootstrap.min.css" />" rel="stylesheet" media="screen">
 <script src="<c:url value="/resources/js/jquery-1.9.1.min.js" />"></script>
+<script src="<c:url value="/resources/bootstrap/js/bootstrap.min.js" />"></script>
 <link href="<c:url value="/resources/css/general.css" />"rel="stylesheet" media="screen">
 <jsp:invoke fragment="additionalHead"></jsp:invoke>
 </head>
@@ -19,7 +20,7 @@
 		<div class="navbar navbar-fixed-top">
 			<div class="navbar-inner">
 				<div class="container">
-					<a class="brand" href="/">junktion</a>
+					<a class="brand" href="/"><i class="icon-trash"></i><b>junk</b>tion</a>
 					<div class="nav-collapse collapse">
 						<ul class="nav">
 							<li class="active"><a href="/"><spring:message code="nav.home"/></a></li>
@@ -34,8 +35,8 @@
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 									<i class="icon-user"></i> Tomasz Kuryłek <b class="caret"></b>
 								</a>
-								<ul class="dropdown-menu">
-									<li>Logout</li>
+								<ul class="dropdown-menu" role="menu">
+									<li><a>Logout</a></li>
 								</ul>
 							</li>
 						</ul>

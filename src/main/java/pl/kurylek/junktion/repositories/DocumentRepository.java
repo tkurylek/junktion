@@ -15,7 +15,7 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import pl.kurylek.junktion.exceptions.DocumentRepositoryException;
+import pl.kurylek.junktion.repositories.exceptions.DocumentRepositoryException;
 
 @Repository
 public class DocumentRepository {

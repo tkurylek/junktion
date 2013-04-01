@@ -8,7 +8,7 @@
 		<p class="muted credit text-right">
 			<spring:message code="footer.codeIsHostedOn" />
 			<a href="https://github.com/tkurylek/junktion">github</a>.
-			<i class="icon-thumbs-up"></i>
+			<i class="icon-heart"></i>
 		</p>
 	</jsp:attribute>
 	<jsp:attribute name="additionalHead">

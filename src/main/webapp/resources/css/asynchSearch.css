@@ -1,5 +1,5 @@
 #asynchSearch-loading {
-	height: 30px;
+	height: 20px;
 }
 #asynchSearch-more {
 	margin-top: 20px;
@@ -7,4 +7,7 @@
 	width: 95%;
 	cursor: pointer;
 	cursor: hand;
+}
+pre {
+	text-align: left !important;
 }

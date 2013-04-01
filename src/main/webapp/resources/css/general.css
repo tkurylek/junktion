@@ -1,21 +1,14 @@
-
-/* Sticky footer styles
-      -------------------------------------------------- */
 html,body {
 	height: 100%;
-	/* The html and body elements cannot have any padding or margin. */
 }
 
-/* Wrapper for page content to push down footer */
 #wrap {
 	min-height: 100%;
 	height: auto !important;
 	height: 100%;
-	/* Negative indent footer by it's height */
 	margin: 0 auto -60px;
 }
 
-/* Set the fixed height of the footer here */
 #push,#footer {
 	height: 60px;
 }
@@ -24,7 +17,6 @@ html,body {
 	background-color: #f5f5f5;
 }
 
-/* Lastly, apply responsive CSS fixes as necessary */
 @media ( max-width : 767px) {
 	#footer {
 		margin-left: -20px;
@@ -33,9 +25,6 @@ html,body {
 		padding-right: 20px;
 	}
 }
-/* Custom page CSS
-      -------------------------------------------------- */
-/* Not required for template or sticky footer method. */
 #wrap>.container {
 	padding-top: 60px;
 }
@@ -49,6 +38,7 @@ code {
 }
 
 .search-query {
+	margin-top:2px;
 	height: 35px !important;
 	font-size: 20px !important;
 }

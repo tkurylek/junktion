@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
-import pl.kurylek.junktion.exceptions.DocumentNotFoundException;
+import pl.kurylek.junktion.loaders.exceptions.DocumentNotFoundException;
 import pl.kurylek.junktion.services.DocumentSearchService;
 import pl.kurylek.junktion.snapshots.DocumentSnaphot;
 

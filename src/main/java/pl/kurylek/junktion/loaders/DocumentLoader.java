@@ -4,7 +4,7 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import pl.kurylek.junktion.exceptions.DocumentNotFoundException;
+import pl.kurylek.junktion.loaders.exceptions.DocumentNotFoundException;
 import pl.kurylek.junktion.repositories.DocumentRepository;
 
 @Component
