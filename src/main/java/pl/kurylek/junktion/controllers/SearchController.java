@@ -1,6 +1,7 @@
 package pl.kurylek.junktion.controllers;
 
 import static org.slf4j.LoggerFactory.getLogger;
+import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import pl.kurylek.junktion.loaders.exceptions.DocumentNotFoundException;
+import pl.kurylek.junktion.repositories.exceptions.DocumentRepositoryException;
 import pl.kurylek.junktion.services.DocumentSearchService;
 import pl.kurylek.junktion.snapshots.DocumentSnaphot;
 
@@ -26,10 +28,8 @@ import pl.kurylek.junktion.snapshots.DocumentSnaphot;
 public class SearchController {
 
     final Logger logger = getLogger(getClass());
-
     @Autowired
     private DocumentSearchService documentSearchService;
-
     @Autowired
     private MessageSource messageSource;
 
@@ -48,8 +48,8 @@ public class SearchController {
 
     @RequestMapping(value = { "/search/{query}/{skip}" }, method = GET, produces = "application/json")
     @ResponseBody
-    public List<DocumentSnaphot> getDocumentsByContentOrFilenameOrAuthor(
-	    @PathVariable String query, @PathVariable int skip) {
+    public List<DocumentSnaphot> getDocumentsByContentOrFilenameOrAuthor(@PathVariable String query,
+	    @PathVariable int skip) {
 	logger.info("Requested documents matching \"" + query + "\", skipping first " + skip);
 	return documentSearchService.findByContentOrAuthorOrTitleOrPath(query, skip);
     }
@@ -60,5 +60,13 @@ public class SearchController {
     public String handleDocumentNotFoundException(DocumentNotFoundException dnfe, Locale locale) {
 	logger.error("Document not found!", dnfe);
 	return messageSource.getMessage("error.documentNotFound", null, locale);
+    }
+
+    @ExceptionHandler(DocumentRepositoryException.class)
+    @ResponseStatus(value = INTERNAL_SERVER_ERROR)
+    @ResponseBody
+    public String handleDocumentRepositoryException(DocumentRepositoryException dre, Locale locale) {
+	logger.error("Repository failed!", dre);
+	return messageSource.getMessage("error.internalServerError", null, locale);
     }
 }

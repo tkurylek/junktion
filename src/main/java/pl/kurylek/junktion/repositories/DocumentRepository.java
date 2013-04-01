@@ -38,6 +38,9 @@ public class DocumentRepository {
 	} catch (SolrServerException e) {
 	    logger.error(e.getMessage());
 	    throw new DocumentRepositoryException(phrase, e);
+	} catch (Throwable e) {
+	    logger.error(e.getMessage());
+	    throw new DocumentRepositoryException(phrase, e);
 	}
     }
 

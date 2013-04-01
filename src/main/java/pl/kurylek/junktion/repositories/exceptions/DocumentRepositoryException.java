@@ -7,4 +7,8 @@ public class DocumentRepositoryException extends RuntimeException {
 	super("Could not query for document matching query \"" + query
 		+ "\". Fatal server error with following cause: ", cause);
     }
+
+    public DocumentRepositoryException(Throwable cause) {
+	super("Fatal server error with following cause: ", cause);
+    }
 }
