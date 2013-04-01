@@ -20,6 +20,7 @@ import pl.kurylek.junktion.exceptions.DocumentRepositoryException;
 @Repository
 public class DocumentRepository {
 
+    public static final int DEFAULT_QUERY_SKIPPING = 0;
     private static final int TITLE_FIELD_BOOST = 2;
     private static final int PATH_FIELD_BOOST = 3;
     private static final int HIGHLIGHTED_SNIPPETS_QUANTITY = 2;
@@ -28,20 +29,23 @@ public class DocumentRepository {
     private SolrServer solrServer;
 
     public QueryResponse queryByContentOrAuthorOrTitleOrPath(String phrase) {
-	try {
-	    SolrQuery query = aQuery(phrase).withinField(CONTENT_FIELD).orWithinField(AUTHOR_FIELD)
-		    .orWithinBoostedField(TITLE_FIELD, TITLE_FIELD_BOOST)
-		    .orWithinBoostedField(PATH_FIELD, PATH_FIELD_BOOST)
-		    .withExtendedDisjunctionMax().withEnabledHighlighting()
-		    .withNumberOfHighlightedSnippets(HIGHLIGHTED_SNIPPETS_QUANTITY).build();
-	    QueryResponse queryResponse = solrServer.query(query);
-	    logger.info("Executing query: " + query);
-	    logger.info("Query took: " + queryResponse.getElapsedTime() + " ms");
-	    return queryResponse;
+	return queryByContentOrAuthorOrTitleOrPath(phrase, DEFAULT_QUERY_SKIPPING);
+    }
 
+    public QueryResponse queryByContentOrAuthorOrTitleOrPath(String phrase, int skip) {
+	try {
+	    return solrServer.query(buildQueryByContentOrAuthorOrTitleOtPath(phrase, skip));
 	} catch (SolrServerException e) {
 	    logger.error(e.getMessage());
 	    throw new DocumentRepositoryException(phrase, e);
 	}
+    }
+
+    private SolrQuery buildQueryByContentOrAuthorOrTitleOtPath(String phrase, int skip) {
+	return aQuery(phrase).withinField(CONTENT_FIELD).orWithinField(AUTHOR_FIELD)
+		.orWithinBoostedField(TITLE_FIELD, TITLE_FIELD_BOOST)
+		.orWithinBoostedField(PATH_FIELD, PATH_FIELD_BOOST).withExtendedDisjunctionMax()
+		.withEnabledHighlighting().wtihSkippingFirst(skip)
+		.withNumberOfHighlightedSnippets(HIGHLIGHTED_SNIPPETS_QUANTITY).build();
     }
 }

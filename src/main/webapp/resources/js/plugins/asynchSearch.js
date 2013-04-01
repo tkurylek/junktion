@@ -17,14 +17,12 @@
 			var self = this;
 			if(location.hash.indexOf('#'+self.url) !== -1) {
 				self.$elem.val(location.hash.replace('#'+self.url,''));
-				self.$form.submit();
+				self.presentResults();
 			} else {
-				location.hash = '';
 				self.$elem.val('');
 				self.$results.html('');
 			}
 		}
-		
 		, searchWithHashOnHashChange : function() {
 			var self = this;
 			self.searchWithHash();
@@ -35,7 +33,7 @@
 		, presentResultsOnSubmit : function() {
 			var self = this;
 			self.$form.submit(function() {
-				self.presentResults();
+				location.hash = self.url+self.$elem.val();
 				return false;
 			});
 		}
@@ -56,7 +54,7 @@
 			self.$results.html(''); 
 			$.each(results, function(i, document){
 				self.$results.append('<blockquote><dl>'
-						+'<dt><i class="icon-file"></i>'+document['title']+' <span class="">'+document['filename']+'</span></dt>'
+						+'<dt><i class="icon-file"></i>'+document['title']+' <span>'+document['filename']+'</span></dt>'
 						+'<dd>'+(document['highlights'].join(' [...] '))+'</dd>'
 						+'<small class="muted pull-right">'+document['path']+'</small>'
 						+'</dl></blockquote>'
@@ -69,7 +67,7 @@
 		}
 		, fetch : function() {
 			var self = this;
-			location.hash = self.url+self.$elem.val();
+			console.log('fetching..');
 			return $.ajax({
 				url : self.url+self.$elem.val()
 				, dataType : 'json'

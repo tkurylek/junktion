@@ -5,11 +5,8 @@
 
 <t:genericpage>
 	<jsp:attribute name="footer">
-		<p class="muted credit">
-			<spring:message code="footer.licence"/>
-			<a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/"
-				target="_blank">Creative Commons Attribution-ShareAlike 3.0
-				Unported License</a>.
+		<p class="muted credit text-right">
+			<spring:message code="footer.codeIsHostedOn" /><a href="https://github.com/tkurylek/junktion">github</a>.
 		</p>
 	</jsp:attribute>
 	<jsp:attribute name="additionalJavascript">

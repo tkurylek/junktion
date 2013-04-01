@@ -25,8 +25,7 @@
 							<li class="active"><a href="/"><spring:message code="nav.home"/></a></li>
 							<li><a href="#about"><spring:message code="nav.about"/></a></li>
 							<li><a href="#help"><spring:message code="nav.help"/></a></li>
-							<li class="divider-vertical"></li>
-							<li><a href="#fork" class="pull-right">Fork on github</a></li>
+							<!-- <li class="divider-vertical"></li> -->
 						</ul>
 					</div>
 					<div class="nav-collapse collapse pull-right">
@@ -60,7 +59,7 @@
 	<!-- Scripts -->
 	<jsp:invoke fragment="additionalJavascript"></jsp:invoke>
 	<script language="javascript">
-		$(".container").slideDown('slow');
+		$(".container").delay(500).slideDown('slow');
 	</script>
 </body>
 </html>

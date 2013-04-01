@@ -17,6 +17,18 @@ public class SolrQueryBuilderTest {
     private static final String CONTENT_FIELD = "_attr_content";
 
     @Test
+    public void shouldBuildQuerySkippingTwoFirstResults() {
+	// given
+	SolrQuery solrQuery = new SolrQuery().setStart(TWO);
+
+	// when
+	SolrQuery result = aQuery().wtihSkippingFirst(TWO).build();
+
+	// then
+	assertThat(result.toString()).isEqualTo(solrQuery.toString());
+    }
+
+    @Test
     public void shouldBuildQueryWithAdditionlField() {
 	// given
 	SolrQuery solrQuery = (SolrQuery) new SolrQuery().set(QUERY_FIELDS_PARAMETER, AUTHOR_FIELD

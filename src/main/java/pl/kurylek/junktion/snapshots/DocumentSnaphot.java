@@ -1,7 +1,5 @@
 package pl.kurylek.junktion.snapshots;
 
-import static pl.kurylek.utils.NullSafeUtils.nullSafeToString;
-
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -21,7 +19,7 @@ public class DocumentSnaphot {
     }
 
     public void setTitle(String title) {
-	this.title = nullSafeToString(title);
+	this.title = title;
     }
 
     public Date getModified() {
@@ -37,7 +35,7 @@ public class DocumentSnaphot {
     }
 
     public void setPath(String path) {
-	this.path = nullSafeToString(path);
+	this.path = path;
     }
 
     public String getFilename() {
@@ -45,7 +43,7 @@ public class DocumentSnaphot {
     }
 
     public void setFilename(String filename) {
-	this.filename = nullSafeToString(filename);
+	this.filename = filename;
     }
 
     public Long getSize() {
@@ -61,7 +59,7 @@ public class DocumentSnaphot {
     }
 
     public void setAuthor(String author) {
-	this.author = nullSafeToString(author);
+	this.author = author;
     }
 
     public List<String> getHighlights() {
@@ -69,6 +67,6 @@ public class DocumentSnaphot {
     }
 
     public void addHighlight(String highlight) {
-	this.highlights.add(nullSafeToString(highlight));
+	this.highlights.add(highlight);
     }
 }

@@ -81,10 +81,6 @@ public class SolrQueryBuilder {
 	return this;
     }
 
-    public SolrQuery build() {
-	return solrQuery;
-    }
-
     public SolrQueryBuilder orWithinBoostedField(String field, int boost) {
 	append(QUERY_FIELDS_PARAMETER, field + BOOST_PREFIX + boost);
 	return this;
@@ -93,5 +89,14 @@ public class SolrQueryBuilder {
     public SolrQueryBuilder orWithinBoostedField(String field, String boost) {
 	append(QUERY_FIELDS_PARAMETER, field + BOOST_PREFIX + boost);
 	return this;
+    }
+
+    public SolrQueryBuilder wtihSkippingFirst(int skip) {
+	solrQuery.setStart(skip);
+	return this;
+    }
+
+    public SolrQuery build() {
+	return solrQuery;
     }
 }

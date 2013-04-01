@@ -46,6 +46,14 @@ public class SearchController {
 	return documentSearchService.findByContentOrAuthorOrTitleOrPath(query);
     }
 
+    @RequestMapping(value = { "/search/{query}/{skip}" }, method = GET, produces = "application/json")
+    @ResponseBody
+    public List<DocumentSnaphot> getDocumentsByContentOrFilenameOrAuthor(
+	    @PathVariable String query, @PathVariable int skip) {
+	logger.info("Requested documents matching \"" + query + "\", skipping first " + skip);
+	return documentSearchService.findByContentOrAuthorOrTitleOrPath(query, skip);
+    }
+
     @ExceptionHandler(DocumentNotFoundException.class)
     @ResponseStatus(value = NOT_FOUND)
     @ResponseBody

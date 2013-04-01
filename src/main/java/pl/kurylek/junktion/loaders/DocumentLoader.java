@@ -14,7 +14,11 @@ public class DocumentLoader {
     private DocumentRepository documentRepository;
 
     public QueryResponse loadByContentOrAuthorOrTitleOrPath(String query) {
-	QueryResponse queryResponse = documentRepository.queryByContentOrAuthorOrTitleOrPath(query);
+	return loadByContentOrAuthorOrTitleOrPath(query, 0);
+    }
+
+    public QueryResponse loadByContentOrAuthorOrTitleOrPath(String query, int skip) {
+	QueryResponse queryResponse = documentRepository.queryByContentOrAuthorOrTitleOrPath(query, skip);
 	throwExceptionWhenDocumentWasNotFound(query, queryResponse);
 	return queryResponse;
     }
