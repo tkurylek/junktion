@@ -11,18 +11,20 @@
 		</p>
 	</jsp:attribute>
 	<jsp:attribute name="additionalHead">
-		<link href="<c:url value="/resources/css/asynchSearch.css" />"
+		<link href="<c:url value="/resources/css/asyncSearch.css" />"
 			rel="stylesheet" media="screen">
 	</jsp:attribute>
 	<jsp:attribute name="additionalJavascript">
 		<script src="<c:url value="/resources/js/plugins/intelligentPopover.js" />"></script>
-		<script src="<c:url value="/resources/js/plugins/asynchSearch.js" />"></script>
+		<script src="<c:url value="/resources/js/plugins/asyncSearch.js" />"></script>
 		<script language="javascript">
-			$('.search-bar').asynchSearch({
+			$('.search-bar').asyncSearch({
 				url : '/search/',
 				form : '.form-search',
 				results : '.search-results',
-				more : '<spring:message code="button.moreResults" javaScriptEscape="true" />'
+				more : '<spring:message code="button.moreResults" javaScriptEscape="true" />',
+				noResults : '<spring:message code="error.documentNotFound" javaScriptEscape="true" />',
+				unknownError : '<spring:message code="error.unknownError" javaScriptEscape="true" />'
 			});
 		</script>
 	</jsp:attribute>

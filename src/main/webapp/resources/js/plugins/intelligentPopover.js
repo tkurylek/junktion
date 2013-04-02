@@ -6,7 +6,7 @@
 		init : function(options, elem) {
 			var self = this;
 			self.$elem = $(elem);
-			self.options = $.extend({}, $.fn.asynchSearch.options , options);
+			self.options = $.extend({}, $.fn.intelligentPopover.options , options);
 			self.$elem.popover({
 				html : true,
 				trigger : 'manual',

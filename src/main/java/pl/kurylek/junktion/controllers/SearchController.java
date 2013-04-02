@@ -10,7 +10,6 @@ import java.util.Locale;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,7 +19,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import pl.kurylek.junktion.loaders.exceptions.DocumentNotFoundException;
-import pl.kurylek.junktion.repositories.exceptions.DocumentRepositoryException;
+import pl.kurylek.junktion.repositories.exceptions.SolrRepositoryException;
 import pl.kurylek.junktion.services.DocumentSearchService;
 import pl.kurylek.junktion.snapshots.DocumentSnaphot;
 
@@ -30,8 +29,6 @@ public class SearchController {
     final Logger logger = getLogger(getClass());
     @Autowired
     private DocumentSearchService documentSearchService;
-    @Autowired
-    private MessageSource messageSource;
 
     @RequestMapping(value = { "/" }, method = GET)
     public ModelAndView handleSearchPage() {
@@ -59,14 +56,14 @@ public class SearchController {
     @ResponseBody
     public String handleDocumentNotFoundException(DocumentNotFoundException dnfe, Locale locale) {
 	logger.error("Document not found!", dnfe);
-	return messageSource.getMessage("error.documentNotFound", null, locale);
+	return dnfe.getMessage();
     }
 
-    @ExceptionHandler(DocumentRepositoryException.class)
+    @ExceptionHandler(SolrRepositoryException.class)
     @ResponseStatus(value = INTERNAL_SERVER_ERROR)
     @ResponseBody
-    public String handleDocumentRepositoryException(DocumentRepositoryException dre, Locale locale) {
-	logger.error("Repository failed!", dre);
-	return messageSource.getMessage("error.internalServerError", null, locale);
+    public String handleDocumentRepositoryException(SolrRepositoryException sre, Locale locale) {
+	logger.error("Solr server failed!", sre);
+	return sre.getMessage();
     }
 }

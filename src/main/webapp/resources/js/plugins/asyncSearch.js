@@ -1,4 +1,4 @@
-// -- asynchSearch.js
+// -- asyncSearch.js
 // requires jQuery, intelligentPopover
 (function($) {
 	var Search = {
@@ -6,7 +6,7 @@
 			var self = this;
 			self.elem = elem;
 			self.$elem = $(elem);
-			self.options = $.extend({}, $.fn.asynchSearch.options , options);
+			self.options = $.extend({}, $.fn.asyncSearch.options , options);
 			self.loadingBarHtml = '<div id="asynchSearch-loading" class="progress progress-striped active text-center"><div class="bar" style="width: 100%;"></div></div>';
 			self.loadingBarId = '#asynchSearch-loading';
 			self.moreButtonHtml = '<ul id="asynchSearch-more" class="pager"><li><a style="width:100%">'+self.options['more']+'</a></li></ul>';
@@ -66,9 +66,12 @@
 				.done(function(results) {
 					self.display(self.generateHtml(results));
 				})
-				.fail(function(reason) {
-					console.log(reason);
-					self.displayErrorMessage(reason['responseText']);
+				.fail(function(error) {
+					if(error.status == 404) {
+						self.displayErrorMessage(self.options['noResults']);
+					} else {
+						self.displayErrorMessage(self.options['unknownError']);
+					}
 				}).always(function() {
 					$(self.loadingBarId).remove();
 				});
@@ -139,7 +142,7 @@
 		}
 	};
 
-	$.fn.asynchSearch = function(options) {
+	$.fn.asyncSearch = function(options) {
 
 		return this.each(function() {
 			var search = Object.create(Search);
@@ -147,10 +150,12 @@
 		})
 	}
 	
-	$.fn.asynchSearch.options = {
+	$.fn.asyncSearch.options = {
 		results : '.results',
 		url : '/search/',
 		form : 'form',
-		more : 'more'
+		more : 'more',
+		noResults : 'Sorry, there are no results',
+		unknownError : 'Unknown error occurred.'
 	};
 })(jQuery);
