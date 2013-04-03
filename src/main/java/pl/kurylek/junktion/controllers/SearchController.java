@@ -1,13 +1,14 @@
 package pl.kurylek.junktion.controllers;
 
 import static org.slf4j.LoggerFactory.getLogger;
-import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 import java.util.List;
 import java.util.Locale;
 
+import org.apache.solr.common.SolrException;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -56,14 +57,14 @@ public class SearchController {
     @ResponseBody
     public String handleDocumentNotFoundException(DocumentNotFoundException dnfe, Locale locale) {
 	logger.error("Document not found!", dnfe);
-	return "Document not found!";
+	return dnfe.getMessage();
     }
 
-    @ExceptionHandler(SolrRepositoryException.class)
-    @ResponseStatus(value = INTERNAL_SERVER_ERROR)
+    @ExceptionHandler({ SolrRepositoryException.class, SolrException.class })
+    @ResponseStatus(value = BAD_REQUEST)
     @ResponseBody
     public String handleDocumentRepositoryException(SolrRepositoryException sre, Locale locale) {
 	logger.error("Solr server failed!", sre);
-	return "Solr server failed!";
+	return sre.getMessage();
     }
 }

@@ -20,10 +20,10 @@
 		<div class="navbar navbar-fixed-top">
 			<div class="navbar-inner">
 				<div class="container">
-					<a class="brand" href="/"><i class="icon-trash"></i><b>junk</b>tion</a>
+					<a class="brand" href="<c:url value="/" />"><i class="icon-trash"></i><b>junk</b>tion</a>
 					<div class="nav-collapse collapse">
 						<ul class="nav">
-							<li class="active"><a href="/"><spring:message code="nav.home"/></a></li>
+							<li class="active"><a href="<c:url value="/" />"><spring:message code="nav.home"/></a></li>
 							<li><a href="https://github.com/tkurylek/junktion/wiki"><spring:message code="nav.about"/></a></li>
 							<li><a href="https://github.com/tkurylek/junktion/wiki"><spring:message code="nav.help"/></a></li>
 						</ul>

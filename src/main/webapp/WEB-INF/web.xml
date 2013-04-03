@@ -11,8 +11,8 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>classpath:spring/application-context.xml</param-value>
 	</context-param>
-	
-	<!-- Character encoding filter forces UTF-8 encoding  -->
+
+	<!-- Character encoding filter forces UTF-8 encoding -->
 	<filter>
 		<filter-name>CharacterEncodingFilter</filter-name>
 		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -43,4 +43,17 @@
 		<servlet-name>appServlet</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
+
+	<error-page>
+		<error-code>404</error-code>
+		<location>/WEB-INF/views/errors/404.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>500</error-code>
+		<location>/WEB-INF//views/errors/unknown.jsp</location>
+	</error-page>
+	<error-page>
+		<exception-type>java.lang.Throwable</exception-type>
+		<location>/WEB-INF/views/errors/unknown.jsp</location>
+	</error-page>
 </web-app>
