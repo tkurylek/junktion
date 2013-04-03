@@ -1,8 +1,7 @@
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="java.util.Locale "%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <t:genericpage>
 	<jsp:attribute name="footer">
 		<p class="muted credit text-right">
