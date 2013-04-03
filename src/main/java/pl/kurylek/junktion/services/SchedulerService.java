@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class SchedulerService {
 
-    private static final String EVERY_HOUR_CRON_EXPRESSION = "0 0 */1 * * ?";
+    private static final String EVERY_HOUR_CRON_EXPRESSION = "0 0 */3 * * ?";
     final Logger logger = getLogger(getClass());
     @Autowired
     private SolrDataImportService solrDataImportService;
