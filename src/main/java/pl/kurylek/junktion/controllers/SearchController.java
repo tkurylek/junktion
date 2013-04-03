@@ -56,7 +56,7 @@ public class SearchController {
     @ResponseBody
     public String handleDocumentNotFoundException(DocumentNotFoundException dnfe, Locale locale) {
 	logger.error("Document not found!", dnfe);
-	return dnfe.getMessage();
+	return "Document not found!";
     }
 
     @ExceptionHandler(SolrRepositoryException.class)
@@ -64,6 +64,6 @@ public class SearchController {
     @ResponseBody
     public String handleDocumentRepositoryException(SolrRepositoryException sre, Locale locale) {
 	logger.error("Solr server failed!", sre);
-	return sre.getMessage();
+	return "Solr server failed!";
     }
 }
