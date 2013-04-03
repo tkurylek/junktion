@@ -7,13 +7,14 @@
 			self.elem = elem;
 			self.$elem = $(elem);
 			self.options = $.extend({}, $.fn.asyncSearch.options , options);
+			self.i18n = self.options['i18n'];
+			self.$results = $(self.options['results']);
+			self.url = self.options['url'];
+			self.$form = $(self.options['form']);
 			self.loadingBarHtml = '<div id="asynchSearch-loading" class="progress progress-striped active text-center"><div class="bar" style="width: 100%;"></div></div>';
 			self.loadingBarId = '#asynchSearch-loading';
-			self.moreButtonHtml = '<ul id="asynchSearch-more" class="pager"><li><a style="width:100%">'+self.options['more']+'</a></li></ul>';
+			self.moreButtonHtml = '<ul id="asynchSearch-more" class="pager"><li><a style="width:100%">'+self.i18n['more']+'</a></li></ul>';
 			self.moreButtonId = '#asynchSearch-more';
-			self.url = self.options['url'];
-			self.$results = $(self.options.results);
-			self.$form = $(self.options['form']);
 			self.updateHashOnSubmit();
 			self.searchOnHashChange();
 		}
@@ -60,30 +61,41 @@
 		, fetchAndPresentResults : function() {
 			var self = this;
 			
-			if(self.$elem.val().length > 0) {
+			// check if there's anything to search
+			if(self.$elem.val().length <= 0) 
+				return;
+			
 			self.display(self.loadingBarHtml);
 			self.fetch(self.skip)
 				.done(function(results) {
 					self.display(self.generateHtml(results));
 				})
 				.fail(function(error) {
-					if(error.status == 404) {
-						self.displayErrorMessage(self.options['noResults']);
-					} else {
-						self.displayErrorMessage(self.options['unknownError']);
-					}
-				}).always(function() {
+					self.handleError(error);
+				})
+				.always(function() {
 					$(self.loadingBarId).remove();
 				});
+		}
+		
+		// handles errors
+		, handleError : function(error) {
+			var self = this;
+			switch(error.status) {
+			case 404 :
+				self.displayErrorMessage(self.i18n['noResults']);
+				break;
+			default :
+				self.displayErrorMessage(self.i18n['unknownError ']);
 			}
 		}
 		
 		// displays error message
 		, displayErrorMessage : function(message) {
 			var self = this;
-			self.display('<div class="alert alert-error text-center">'
-					+message+'<a class="close" data-dismiss="alert" href="#">'
-					+'&times;</a></div>');
+			self.display('<div class="alert alert-error text-center">'+message
+					+'<a class="close" data-dismiss="alert" href="#">&times;</a>'
+					+'</div>');
 		}
 		
 		// generates html for each document
@@ -100,16 +112,19 @@
 						+'</dl></blockquote>'
 						+'<hr>');
 				$('#'+documentId).intelligentPopover({
-					content : '<div class="btn-toolbar">'
-						+'<div class="btn-group">'
-							+'<a class="btn btn-small" href="#"><i class="icon-info-sign"></i></a>'
-							+'<a class="btn btn-small" href="#"><i class="icon-eye-open"></i></a>'
-							+'<a class="btn btn-small" href="#"><i class="icon-download-alt"></i></a>'
-						+'</div>'
-					+'</div>'
+					content : '' 
+						+self.printIfNotNull(self.i18n['author'], document['author']) 
+						+self.printIfNotNull(self.i18n['size'], (Math.round(document['size']/1024)+' kB'))
+						+self.printIfNotNull(self.i18n['modified'], document['modified'])
 				});
 			});
 			self.appendMoreButtonIfNecessary(results);
+		}
+		
+		, printIfNotNull: function(label, nullable) {
+			if((nullable).length > 0)
+				return '<b>'+label+':</b> '+nullable+'<br>';
+			return '';
 		}
 		
 		// adds 'more' button when there might be more results
@@ -154,8 +169,15 @@
 		results : '.results',
 		url : '/search/',
 		form : 'form',
-		more : 'more',
-		noResults : 'Sorry, there are no results',
-		unknownError : 'Unknown error occurred.'
+		i18n : {
+			more : 'more',
+			// messages used in popover
+			author : 'Author',
+			modified : 'Modified',
+			size : 'Size',
+			// errors
+			noResults: 'Sorry, there are no results',
+			unknownError: 'Unknown error occurred.',
+		}
 	};
 })(jQuery);

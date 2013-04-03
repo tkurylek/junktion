@@ -24,19 +24,19 @@
 					<div class="nav-collapse collapse">
 						<ul class="nav">
 							<li class="active"><a href="/"><spring:message code="nav.home"/></a></li>
-							<li><a href="#about"><spring:message code="nav.about"/></a></li>
-							<li><a href="#help"><spring:message code="nav.help"/></a></li>
-							<!-- <li class="divider-vertical"></li> -->
+							<li><a href="https://github.com/tkurylek/junktion/wiki"><spring:message code="nav.about"/></a></li>
+							<li><a href="https://github.com/tkurylek/junktion/wiki"><spring:message code="nav.help"/></a></li>
 						</ul>
 					</div>
 					<div class="nav-collapse collapse pull-right">
 						<ul class="nav">
 							<li class="dropdown">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-									<i class="icon-user"></i> Tomasz Kuryłek <b class="caret"></b>
+								<i class="icon-globe"></i> <spring:message code="nav.language"/> <b class="caret"></b>
 								</a>
-								<ul class="dropdown-menu" role="menu">
-									<li><a>Logout</a></li>
+								<ul class="dropdown-menu">
+									<li><a href="?ln=en">English</a></li>
+									<li><a href="?ln=pl">Polski</a></li>
 								</ul>
 							</li>
 						</ul>
@@ -60,7 +60,7 @@
 	<!-- Scripts -->
 	<jsp:invoke fragment="additionalJavascript"></jsp:invoke>
 	<script language="javascript">
-		$(".container").delay(500).fadeIn('slow');
+		$(".container").slideDown('slow');
 	</script>
 </body>
 </html>

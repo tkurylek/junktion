@@ -22,9 +22,14 @@
 				url : '/search/',
 				form : '.form-search',
 				results : '.search-results',
-				more : '<spring:message code="button.moreResults" javaScriptEscape="true" />',
-				noResults : '<spring:message code="error.documentNotFound" javaScriptEscape="true" />',
-				unknownError : '<spring:message code="error.unknownError" javaScriptEscape="true" />'
+				i18n : {
+					more : '<spring:message code="button.moreResults" javaScriptEscape="true" />',
+					author : '<spring:message code="document.author" javaScriptEscape="true" />',
+					modified : '<spring:message code="document.modified" javaScriptEscape="true" />',
+					size : '<spring:message code="document.size" javaScriptEscape="true" />',
+					noResults : '<spring:message code="error.documentNotFound" javaScriptEscape="true" />',
+					unknownError : '<spring:message code="error.unknownError" javaScriptEscape="true" />'
+				}
 			});
 		</script>
 	</jsp:attribute>
@@ -33,17 +38,13 @@
 			<form class="form-search" method="get">
 				<div class="input-append lead">
 					<input type="text" class="search-bar search-query span6"
-						placeholder="<spring:message code="home.search"/>">
+						placeholder="<spring:message code="searchbar.search"/>">
 					<button class="btn btn-large" type="submit">
 						<i class="icon-search"></i>
 					</button>
 				</div>
 			</form>
 		</div>
-		<div class="text-left search-results">
-			<p class="text-center">
-				<spring:message code="home.header" />
-			</p>
-		</div>
+		<div class="text-left search-results"></div>
 	</jsp:body>
 </t:genericpage>

@@ -2,6 +2,7 @@ package pl.kurylek.junktion.services;
 
 import static pl.kurylek.junktion.domain.Document.CONTENT_FIELD;
 
+import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -31,7 +32,7 @@ public class DocumentMapperService {
 	    Map<String, Map<String, List<String>>> documentsHighlightings) {
 	DocumentSnaphot documentSnaphot = new DocumentSnaphot();
 	documentSnaphot.setTitle(escaper.escape(document.getTitle()));
-	documentSnaphot.setModified(document.getModified());
+	documentSnaphot.setModified(new SimpleDateFormat("dd.MM.yyyy hh:mm").format(document.getModified()));
 	documentSnaphot.setPath(escaper.escape(document.getPath()));
 	documentSnaphot.setFilename(escaper.escape(document.getFilename()));
 	documentSnaphot.setSize(document.getSize());

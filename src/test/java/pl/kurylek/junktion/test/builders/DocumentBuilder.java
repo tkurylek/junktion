@@ -50,4 +50,9 @@ public class DocumentBuilder extends Builder<Document> {
 	getBuildedObject().setTitle(title);
 	return this;
     }
+
+    public DocumentBuilder withModified(Date date) {
+	getBuildedObject().setModified(date);
+	return this;
+    }
 }

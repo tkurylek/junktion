@@ -1,13 +1,12 @@
 package pl.kurylek.junktion.snapshots;
 
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
 public class DocumentSnaphot {
 
     private String title;
-    private Date modified;
+    private String modified;
     private String path;
     private String filename;
     private Long size;
@@ -22,12 +21,12 @@ public class DocumentSnaphot {
 	this.title = title;
     }
 
-    public Date getModified() {
+    public String getModified() {
 	return modified;
     }
 
-    public void setModified(Date modified) {
-	this.modified = modified;
+    public void setModified(String date) {
+	this.modified = date;
     }
 
     public String getPath() {

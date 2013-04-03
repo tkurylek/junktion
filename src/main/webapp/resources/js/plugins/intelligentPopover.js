@@ -9,20 +9,12 @@
 			self.options = $.extend({}, $.fn.intelligentPopover.options , options);
 			self.$elem.popover({
 				html : true,
-				trigger : 'manual',
+				trigger : 'hover',
 				title : self.options['title'],
 				content : self.options['content'],
 				placement: 'top',
-				template: '<div class="popover" onmouseover="clearTimeout(timeoutObj);$(this).mouseleave(function() {$(this).hide();});"><div class="arrow"></div><div class="popover-inner"><h3 class="popover-title"></h3><div class="popover-content"><p></p></div></div></div>'
-			}).mouseenter(function(e) {
-				var $self = $(this);
-				$self.popover('show');
-			}).mouseleave(function(e) {
-			    var $self = $(this);
-			    timeoutObj = setTimeout(function(){
-			        $self.popover('hide');
-			    }, 100);
-			});
+				delay : {show: 1000, hide: 10}
+			})
 		}
 	}
 	
