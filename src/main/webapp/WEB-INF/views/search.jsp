@@ -1,4 +1,4 @@
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
@@ -18,7 +18,7 @@
 		<script src="<c:url value="/resources/js/plugins/asyncSearch.js" />"></script>
 		<script language="javascript">
 			$('.search-bar').asyncSearch({
-				url : '/search/',
+				url : 'search/',
 				form : '.form-search',
 				results : '.search-results',
 				i18n : {

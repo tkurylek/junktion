@@ -86,7 +86,7 @@
 				self.displayErrorMessage(self.i18n['noResults']);
 				break;
 			default :
-				self.displayErrorMessage(self.i18n['unknownError ']);
+				self.displayErrorMessage(self.i18n['unknownError']);
 			}
 		}
 		
