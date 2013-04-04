@@ -8,10 +8,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class HighlightAwareHtmlEscaperService {
 
-    private static final String HL_SIMPLE_PRE = "@@@hl@@@";
-    private static final String HL_SIMPLE_PRE_HTML = "<em class='highlight'>";
-    private static final String HL_SIMPLE_POST = "@@@endhl@@@";
-    private static final String HL_SIMPLE_POST_HTML = "</em>";
+    public static final String HL_SIMPLE_PRE = "@@@hl@@@";
+    public static final String HL_SIMPLE_PRE_HTML = "<em class='highlight'>";
+    public static final String HL_SIMPLE_POST = "@@@endhl@@@";
+    public static final String HL_SIMPLE_POST_HTML = "</em>";
 
     public String escape(String string) {
 	return escapeHtml4(nullSafeToString(string));
