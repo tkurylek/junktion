@@ -19,9 +19,6 @@ public class DocumentSearchServiceTest extends SolrIntegrationTestBase {
     @Autowired
     DocumentSearchService documentSearchService;
 
-    @Autowired
-    DocumentMapperService documentSnapshotMapper;
-
     @Test
     public void shouldFindByContentOrFilenameOrAuthor() throws Exception {
 	// given
