@@ -1,10 +1,10 @@
 package pl.kurylek.junktion.services;
 
 import static org.fest.assertions.Assertions.assertThat;
-import static pl.kurylek.junktion.services.HighlightAwareHtmlEscaperService.HIGHLIGHT_TAG_POST;
-import static pl.kurylek.junktion.services.HighlightAwareHtmlEscaperService.HIGHLIGHT_TAG_POST_HTML;
-import static pl.kurylek.junktion.services.HighlightAwareHtmlEscaperService.HIGHLIGHT_TAG_PRE;
-import static pl.kurylek.junktion.services.HighlightAwareHtmlEscaperService.HIGHLIGHT_TAG_PRE_HTML;
+import static pl.kurylek.junktion.services.HighlightAwareHtmlEscaperService.HIGHLIGHT_SIMPLE_TAG_POST;
+import static pl.kurylek.junktion.services.HighlightAwareHtmlEscaperService.HIGHLIGHT_HTML_TAG_POST;
+import static pl.kurylek.junktion.services.HighlightAwareHtmlEscaperService.HIGHLIGHT_SIMPLE_TAG_PRE;
+import static pl.kurylek.junktion.services.HighlightAwareHtmlEscaperService.HIGHLIGHT_HTML_TAG_PRE;
 
 import org.junit.Test;
 
@@ -13,12 +13,12 @@ public class HighlightAwareHtmlEscaperServiceTest {
     HighlightAwareHtmlEscaperService highlightAwareHtmlEscaperService = new HighlightAwareHtmlEscaperService();
 
     @Test
-    public void shouldEscapeNull() {
+    public void shouldEscapeNullString() {
 	// given
-	String nullText = null;
+	String nullString = null;
 
 	// when
-	String result = highlightAwareHtmlEscaperService.escape(nullText);
+	String result = highlightAwareHtmlEscaperService.escape(nullString);
 
 	// then
 	assertThat(result).isEmpty();
@@ -40,9 +40,9 @@ public class HighlightAwareHtmlEscaperServiceTest {
     @Test
     public void shouldEscapeRespectingHighlighting() {
 	// given
-	String textWithHighlight = HIGHLIGHT_TAG_PRE + "Integral" + HIGHLIGHT_TAG_POST
+	String textWithHighlight = HIGHLIGHT_SIMPLE_TAG_PRE + "Integral" + HIGHLIGHT_SIMPLE_TAG_POST
 		+ " of <i>dx</i> equals x";
-	String ecapedTextWithHighlight = HIGHLIGHT_TAG_PRE_HTML + "Integral" + HIGHLIGHT_TAG_POST_HTML
+	String ecapedTextWithHighlight = HIGHLIGHT_HTML_TAG_PRE + "Integral" + HIGHLIGHT_HTML_TAG_POST
 		+ " of &lt;i&gt;dx&lt;/i&gt; equals x";
 
 	// when

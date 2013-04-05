@@ -7,8 +7,16 @@ import pl.kurylek.utils.test.builders.Builder;
 
 public class DocumentBuilder extends Builder<Document> {
 
+    private static final Long ZERO = 0L;
+    private static final String EMPTY = "";
+
     public static DocumentBuilder aDocument() {
 	return new DocumentBuilder();
+    }
+
+    public DocumentBuilder empty() {
+	return this.withAuthor(EMPTY).withContent(EMPTY).withFilename(EMPTY).withFilename(EMPTY)
+		.withId(EMPTY).withPath(EMPTY).withSize(ZERO);
     }
 
     public DocumentBuilder withId(String id) {
@@ -23,11 +31,6 @@ public class DocumentBuilder extends Builder<Document> {
 
     public DocumentBuilder withAuthor(String author) {
 	getBuildedObject().setAuthor(author);
-	return this;
-    }
-
-    public DocumentBuilder withLastModificationTime(Date modificationTime) {
-	getBuildedObject().setModified(modificationTime);
 	return this;
     }
 

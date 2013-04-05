@@ -2,6 +2,7 @@ package pl.kurylek.junktion.repositories;
 
 import static org.fest.assertions.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
+import static pl.kurylek.junktion.builders.SolrQueryBuilder.aQuery;
 
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServer;
@@ -13,11 +14,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import pl.kurylek.junktion.builders.SolrQueryBuilder;
 import pl.kurylek.junktion.repositories.exceptions.SolrRepositoryException;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SolrRepositoryTest {
+
+    private static final String ANY_EXCEPTION_MESSAGE = "";
 
     @Mock
     SolrServer mockedSolrServer;
@@ -28,8 +30,9 @@ public class SolrRepositoryTest {
     @Test
     public void shouldThrowSolrRepositoryExceptionWhenQueryingUnreachableServer() throws Exception {
 	// given
-	SolrQuery query = SolrQueryBuilder.aQuery().build();
-	given(mockedSolrServer.query(query)).willThrow(new SolrServerException(""));
+	SolrQuery query = aQuery().build();
+	SolrServerException solrServerException = new SolrServerException(ANY_EXCEPTION_MESSAGE);
+	given(mockedSolrServer.query(query)).willThrow(solrServerException);
 
 	// when
 	SolrRepositoryException caughtException = null;
@@ -46,7 +49,8 @@ public class SolrRepositoryTest {
     public void shouldThrowSolrRepositoryExceptionWhenRequestingUnreachableServer() throws Exception {
 	// given
 	QueryRequest queryRequest = new QueryRequest();
-	given(mockedSolrServer.request(queryRequest)).willThrow(new SolrServerException(""));
+	SolrServerException solrServerException = new SolrServerException(ANY_EXCEPTION_MESSAGE);
+	given(mockedSolrServer.request(queryRequest)).willThrow(solrServerException);
 
 	// when
 	SolrRepositoryException caughtException = null;

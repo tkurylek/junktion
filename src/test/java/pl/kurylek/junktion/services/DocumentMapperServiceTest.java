@@ -15,15 +15,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import pl.kurylek.junktion.domain.Document;
 import pl.kurylek.junktion.snapshots.DocumentSnaphot;
-import pl.kurylek.junktion.test.SolrIntegrationTestBase;
+import pl.kurylek.junktion.test.integration.solr.SolrIntegrationTestBase;
 
 public class DocumentMapperServiceTest extends SolrIntegrationTestBase {
 
     private static final String ANY_ID = "default-id.doc";
     private static final long ANY_SIZE = 1L;
     private static final Date LAST_MODIFICATION_DATE = new Date(1L);
-    private static final String AUTHOR_WITH_HTML = "<a>Mr Bean</a>";
-    private static final String AUTHOR_ESCAPED = "&lt;a&gt;Mr Bean&lt;/a&gt;";
+    private static final String FORMATTED_LAST_MODIFICATION_DATE = "01.01.1970 01:00";
+    private static final String AUTHOR_WITH_HTML = "<a>Dr Leonard Leakey Hofstadter</a>";
+    private static final String AUTHOR_ESCAPED = "&lt;a&gt;Dr Leonard Leakey Hofstadter&lt;/a&gt;";
     private static final String FILENAME_WITH_HTML = "<script>alert('filename')</script>";
     private static final String FILENAME_ESCAPED = "&lt;script&gt;alert('filename')&lt;/script&gt;";
     private static final String PATH_WITH_HTML = "path/to/file<script>";
@@ -32,7 +33,6 @@ public class DocumentMapperServiceTest extends SolrIntegrationTestBase {
     private static final String TITLE_ESCAPED = "&lt;b&gt;title&lt;/b&gt;";
     private static final String HIGHLIGHT_WITH_HTML = "<b>Lorem ipsum</b>";
     private static final String HIGHLIGHT_ESCAPED = "&lt;b&gt;Lorem ipsum&lt;/b&gt;";
-    DateFormatterService dateFormatterService = new DateFormatterService();
 
     @Autowired
     DocumentMapperService documentMapperService;
@@ -50,7 +50,7 @@ public class DocumentMapperServiceTest extends SolrIntegrationTestBase {
 
 	// then
 	assertThat(result.getTitle()).isEqualTo(TITLE_ESCAPED);
-	assertThat(result.getModified()).isEqualTo(dateFormatterService.format(LAST_MODIFICATION_DATE));
+	assertThat(result.getModified()).isEqualTo(FORMATTED_LAST_MODIFICATION_DATE);
 	assertThat(result.getPath()).isEqualTo(PATH_ESCAPED);
 	assertThat(result.getFilename()).isEqualTo(FILENAME_ESCAPED);
 	assertThat(result.getSize()).isEqualTo(ANY_SIZE);
