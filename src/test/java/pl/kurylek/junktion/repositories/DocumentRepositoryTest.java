@@ -3,12 +3,9 @@ package pl.kurylek.junktion.repositories;
 import static org.fest.assertions.Assertions.assertThat;
 import static pl.kurylek.junktion.test.builders.DocumentBuilder.aDocument;
 
-import java.util.List;
-
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.solr.core.SolrTemplate;
 
 import pl.kurylek.junktion.domain.Document;
 import pl.kurylek.junktion.test.integration.solr.SolrIntegrationTestBase;
@@ -20,9 +17,6 @@ public class DocumentRepositoryTest extends SolrIntegrationTestBase {
 
     @Autowired
     DocumentRepository documentRepository;
-
-    @Autowired
-    SolrTemplate solrServer;
 
     @Test
     public void shouldQueryByContentOrAuthorOrTitleOrPathReturningDocumentMatchingByContent() {
@@ -37,7 +31,7 @@ public class DocumentRepositoryTest extends SolrIntegrationTestBase {
 	QueryResponse result = documentRepository.queryByContentOrAuthorOrTitleOrPath("matter");
 
 	// then
-	assertThat(extractDocuments(result)).containsOnly(documentMatchingByContent);
+	assertThat(getDocuments(result)).containsOnly(documentMatchingByContent);
     }
 
     @Test
@@ -53,7 +47,7 @@ public class DocumentRepositoryTest extends SolrIntegrationTestBase {
 	QueryResponse result = documentRepository.queryByContentOrAuthorOrTitleOrPath("sheldon");
 
 	// then
-	assertThat(extractDocuments(result)).containsOnly(documentMatchingByAuthor);
+	assertThat(getDocuments(result)).containsOnly(documentMatchingByAuthor);
     }
 
     @Test
@@ -69,10 +63,22 @@ public class DocumentRepositoryTest extends SolrIntegrationTestBase {
 	QueryResponse result = documentRepository.queryByContentOrAuthorOrTitleOrPath("black list");
 
 	// then
-	assertThat(extractDocuments(result)).containsOnly(documentMatchingByTitle);
+	assertThat(getDocuments(result)).containsOnly(documentMatchingByTitle);
     }
 
-    private List<Document> extractDocuments(QueryResponse result) {
-	return result.getBeans(Document.class);
+    @Test
+    public void shouldQueryByContentOrAuthorOrTitleOrPathReturningDocumentMatchingByPath() {
+	// given
+	Document documentMatchingByPath = aDocument().empty().withId(MATCHING_DOCUMENT_ID)
+		.withPath("/home/sheldon/Documents/doc.pdf").build();
+	Document documentNotMatching = aDocument().empty().withId(NOT_MATCHING_DOCUMENT_ID)
+		.withPath("/not/matching/path").build();
+	savedInRepository(documentMatchingByPath, documentNotMatching);
+
+	// when
+	QueryResponse result = documentRepository.queryByContentOrAuthorOrTitleOrPath("*/Documents*");
+
+	// then
+	assertThat(getDocuments(result)).containsOnly(documentMatchingByPath);
     }
 }

@@ -42,13 +42,13 @@ public class HighlightAwareHtmlEscaperServiceTest {
 	// given
 	String textWithHighlight = HIGHLIGHT_SIMPLE_TAG_PRE + "Integral" + HIGHLIGHT_SIMPLE_TAG_POST
 		+ " of <i>dx</i> equals x";
-	String ecapedTextWithHighlight = HIGHLIGHT_HTML_TAG_PRE + "Integral" + HIGHLIGHT_HTML_TAG_POST
+	String escapedTextWithHighlight = HIGHLIGHT_HTML_TAG_PRE + "Integral" + HIGHLIGHT_HTML_TAG_POST
 		+ " of &lt;i&gt;dx&lt;/i&gt; equals x";
 
 	// when
 	String result = highlightAwareHtmlEscaperService.escapeRespectingHighlighting(textWithHighlight);
 
 	// then
-	assertThat(result).isEqualTo(ecapedTextWithHighlight);
+	assertThat(result).isEqualTo(escapedTextWithHighlight);
     }
 }

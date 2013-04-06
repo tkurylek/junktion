@@ -33,8 +33,7 @@ public class SearchController {
 
     @RequestMapping(value = { "/" }, method = GET)
     public ModelAndView handleSearchPage() {
-	ModelAndView model = new ModelAndView("search");
-	return model;
+	return new ModelAndView("search");
     }
 
     @RequestMapping(value = { "/search/{query}" }, method = GET, produces = "application/json")

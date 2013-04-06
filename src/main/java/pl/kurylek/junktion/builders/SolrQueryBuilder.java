@@ -72,7 +72,7 @@ public class SolrQueryBuilder {
     }
 
     public SolrQueryBuilder withinBoostedField(String field, int boost) {
-	solrQuery.set(QUERY_FIELDS_PARAMETER, field + BOOST_PREFIX + boost);
+	withinBoostedField(field, Integer.toString(boost));
 	return this;
     }
 

@@ -1,6 +1,9 @@
 package pl.kurylek.junktion.test.integration.solr;
 
+import java.util.List;
+
 import org.apache.solr.client.solrj.SolrServer;
+import org.apache.solr.client.solrj.response.QueryResponse;
 import org.junit.After;
 import org.junit.Ignore;
 import org.junit.runner.RunWith;
@@ -16,22 +19,11 @@ import pl.kurylek.junktion.domain.Document;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ActiveProfiles("integration-test")
 @Ignore
-public class SolrIntegrationTestBase {
+public abstract class SolrIntegrationTestBase {
 
-    private static final String QUERY_MATCHING_ALL_DOCUMENTS = "*:*";
+    protected static final String QUERY_MATCHING_ALL_DOCUMENTS = "*:*";
     @Autowired
-    SolrServer solrServer;
-
-    protected void savedInRepository(final Document document) {
-	tryToPerformDatabaseOperation(new SolrTestInsanceOperation() {
-
-	    @Override
-	    public void operate() throws Exception {
-		solrServer.addBean(document);
-		solrServer.commit();
-	    }
-	});
-    }
+    protected SolrServer solrServer;
 
     protected void savedInRepository(final Document... documents) {
 	tryToPerformDatabaseOperation(new SolrTestInsanceOperation() {
@@ -52,6 +44,10 @@ public class SolrIntegrationTestBase {
 	} catch (Exception e) {
 	    throw new SolrTestInsanceException(e);
 	}
+    }
+
+    protected List<Document> getDocuments(QueryResponse queryResponse) {
+	return queryResponse.getBeans(Document.class);
     }
 
     @After
