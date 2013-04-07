@@ -18,7 +18,7 @@
 		<script src="<c:url value="/resources/js/plugins/asyncSearch.js" />"></script>
 		<script language="javascript">
 			$('.search-bar').asyncSearch({
-				url : 'search/',
+				serviceLocation : 'search/',
 				form : '.form-search',
 				results : '.search-results',
 				i18n : {

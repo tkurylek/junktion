@@ -2,15 +2,15 @@
 // requires jQuery, intelligentPopover
 (function($) {
 	var Search = {
-		init : function(options, elem) {
+		init : function(options, searchBar) {
 			var self = this;
-			self.elem = elem;
-			self.$elem = $(elem);
 			self.options = $.extend({}, $.fn.asyncSearch.options , options);
-			self.i18n = self.options['i18n'];
+			self.searchBar = searchBar;
+			self.$searchBar = $(searchBar);
 			self.$results = $(self.options['results']);
-			self.url = self.options['url'];
+			self.serviceLocation = self.options['serviceLocation'];
 			self.$form = $(self.options['form']);
+			self.i18n = self.options['i18n'];
 			self.loadingBarHtml = '<div id="asynchSearch-loading" class="progress progress-striped active text-center"><div class="bar" style="width: 100%;"></div></div>';
 			self.loadingBarId = '#asynchSearch-loading';
 			self.moreButtonHtml = '<ul id="asynchSearch-more" class="pager"><li><a style="width:100%">'+self.i18n['more']+'</a></li></ul>';
@@ -23,7 +23,7 @@
 		, updateHashOnSubmit : function() {
 			var self = this;
 			self.$form.submit(function() {
-				location.hash = self.url+self.$elem.val();
+				location.hash = self.serviceLocation+self.$searchBar.val();
 				return false;
 			});
 		}
@@ -40,21 +40,21 @@
 		// triggers function to search for documents
 		, searchWithHash : function() {
 			var self = this;
-			self.$results.html(''); // clear the results
-			self.skip = 0;
-			if(location.hash.indexOf('#'+self.url) !== -1) {
+			self.$results.empty();
+			self.obtainedDocuments = 0;
+			if(location.hash.indexOf('#'+self.serviceLocation) !== -1) {
 				self.updateSearchBar();
 				self.fetchAndPresentResults();
 			} else { // if the location bar is not readable go to the home page
-				self.$elem.val('');
-				self.$results.html('');
+				self.$searchBar.val('');
+				self.$results.empty();
 			}
 		}
 		
 		// updates search bar to show the same phrase as location bar
 		, updateSearchBar : function() {
 			var self = this;
-			self.$elem.val(location.hash.replace('#'+self.url,''));
+			self.$searchBar.val(location.hash.replace('#'+self.serviceLocation,''));
 		}
 		
 		// fetches and presents results
@@ -62,11 +62,11 @@
 			var self = this;
 			
 			// check if there's anything to search
-			if(self.$elem.val().length <= 0) 
+			if(self.$searchBar.val().length <= 0) 
 				return;
 			
 			self.display(self.loadingBarHtml);
-			self.fetch(self.skip)
+			self.fetch(self.obtainedDocuments)
 				.done(function(results) {
 					self.display(self.generateHtml(results));
 				})
@@ -77,60 +77,43 @@
 					$(self.loadingBarId).remove();
 				});
 		}
-		
-		// handles errors
-		, handleError : function(error) {
-			var self = this;
-			switch(error.status) {
-			case 404 :
-				self.displayErrorMessage(self.i18n['noResults']);
-				break;
-			default :
-				self.displayErrorMessage(self.i18n['unknownError']);
-			}
-		}
-		
-		// displays error message
-		, displayErrorMessage : function(message) {
-			var self = this;
-			self.display('<div class="alert alert-error text-center">'+message
-					+'<a class="close" data-dismiss="alert" href="#">&times;</a>'
-					+'</div>');
-		}
-		
+
 		// generates html for each document
 		, generateHtml: function(results) {
 			var self = this;
 			var html = '';
 			$.each(results, function(i, document){
-				var documentId = 'asynchSearch'+self.skip+'v'+i;
-				self.$results
-					.append('<blockquote id="'+documentId+'"><dl>'
-						+'<dt>'+document['filename']+' <span class="document-title"> - '+document['title']+'</span></dt>'
-						+'<dd>'+(document['highlights'].join(' [...] '))+'</dd>'
-						+'<small class="muted pull-right hidden-phone">'+document['path']+'</small>'
-						+'</dl></blockquote>'
-						+'<hr>');
+				var documentId = 'asyncSearch'+self.obtainedDocuments+'_'+i;
+				self.$results.append('<blockquote id="'+documentId+'"><dl>'
+					+'<dt>'+document['filename']+' <span class="document-title"> - '+document['title']+'</span></dt>'
+					+'<dd>'+(document['highlights'].join(' [...] '))+'</dd>'
+					+'<small class="muted pull-right hidden-phone">'+document['path']+'</small>'
+					+'</dl></blockquote>'
+					+'<hr>');
 				$('#'+documentId).intelligentPopover({
 					content : '' 
-						+self.printIfNotNull(self.i18n['author'], document['author']) 
-						+self.printIfNotNull(self.i18n['size'], (Math.round(document['size']/1024)+' kB'))
-						+self.printIfNotNull(self.i18n['modified'], document['modified'])
+					+self.printIfNotEmpty(self.i18n['author'], document['author']) 
+					+self.printIfNotEmpty(self.i18n['size'], self.getKilobytesOfBytes(document['size']))
+					+self.printIfNotEmpty(self.i18n['modified'], document['modified'])
 				});
 			});
-			self.appendMoreButtonIfNecessary(results);
+			self.addMoreButtonIfNecessary(results);
+		}
+
+		, getKilobytesOfBytes : function(sizeInBytes) {
+			return Math.round(sizeInBytes/1024)+' kB';
 		}
 		
-		, printIfNotNull: function(label, nullable) {
-			if((nullable).length > 0)
-				return '<b>'+label+':</b> '+nullable+'<br>';
+		, printIfNotEmpty: function(label, anyString) {
+			if((anyString).length > 0)
+				return '<b>'+label+':</b> '+anyString+'<br>';
 			return '';
 		}
 		
 		// adds 'more' button when there might be more results
-		, appendMoreButtonIfNecessary : function(results) {
+		, addMoreButtonIfNecessary : function(results) {
 			var self = this;
-			self.skip += results.length;
+			self.obtainedDocuments += results.length;
 			if(results.length >= 10) {
 				self.$results.append(self.moreButtonHtml);
 				$(self.moreButtonId).click(function() {
@@ -140,6 +123,26 @@
 			}
 		}
 		
+		// handles errors
+		, handleError : function(error) {
+			var self = this;
+			switch(error.status) {
+				case 404 :
+				self.displayErrorMessage(self.i18n['noResults']);
+				break;
+				default :
+				self.displayErrorMessage(self.i18n['unknownError']);
+			}
+		}
+		
+		// displays error message
+		, displayErrorMessage : function(message) {
+			var self = this;
+			self.display('<div class="alert alert-error text-center">'+message
+				+'<a class="close" data-dismiss="alert" href="#">&times;</a>'
+				+'</div>');
+		}
+		
 		// displays results
 		, display : function(html) {
 			var self = this;
@@ -147,27 +150,27 @@
 		}
 		
 		// fetches for documents
-		, fetch : function(skip) {
+		, fetch : function(obtainedDocuments) {
 			var self = this;
 			return $.ajax({
-				url : self.url+self.$elem.val()+"/"+skip
-				, dataType : 'json'
-				, data : {}
+				url : self.serviceLocation+self.$searchBar.val()+"/"+obtainedDocuments,
+				dataType : 'json',
+				data : {}
 			});
 		}
 	};
 
 	$.fn.asyncSearch = function(options) {
-
 		return this.each(function() {
 			var search = Object.create(Search);
 			search.init(options, this);
 		})
 	}
 	
+	// default options
 	$.fn.asyncSearch.options = {
 		results : '.results',
-		url : '/search/',
+		serviceLocation : '/search/',
 		form : 'form',
 		i18n : {
 			more : 'more',
@@ -175,7 +178,7 @@
 			author : 'Author',
 			modified : 'Modified',
 			size : 'Size',
-			// errors
+			// error messages
 			noResults: 'Sorry, there are no results',
 			unknownError: 'Unknown error occurred.',
 		}
