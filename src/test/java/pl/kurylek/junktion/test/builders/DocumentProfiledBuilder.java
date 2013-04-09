@@ -4,7 +4,7 @@ import static pl.kurylek.junktion.test.builders.DocumentBuilder.aDocument;
 
 import java.util.Date;
 
-import pl.kurylek.utils.test.builders.Builder;
+import pl.kurylek.utils.builders.Builder;
 
 public class DocumentProfiledBuilder extends Builder<DocumentBuilder> {
 

@@ -1,7 +1,7 @@
 package pl.kurylek.junktion.services;
 
 import static org.apache.commons.lang3.StringEscapeUtils.escapeHtml4;
-import static pl.kurylek.utils.NullSafeUtils.nullSafeToString;
+import static pl.kurylek.utils.nullsafe.NullSafeUtils.nullSafeToString;
 
 import org.springframework.stereotype.Service;
 
@@ -18,7 +18,7 @@ public class HighlightAwareHtmlEscaperService {
     }
 
     public String escapeRespectingHighlighting(String string) {
-	return escape(string).replaceAll(HIGHLIGHT_SIMPLE_TAG_PRE, HIGHLIGHT_HTML_TAG_PRE).replaceAll(HIGHLIGHT_SIMPLE_TAG_POST,
-		HIGHLIGHT_HTML_TAG_POST);
+	return escape(string).replaceAll(HIGHLIGHT_SIMPLE_TAG_PRE, HIGHLIGHT_HTML_TAG_PRE).replaceAll(
+		HIGHLIGHT_SIMPLE_TAG_POST, HIGHLIGHT_HTML_TAG_POST);
     }
 }

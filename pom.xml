@@ -25,7 +25,7 @@
 		<jstl.version>1.2</jstl.version>
 		<aspectjrt.version>1.5.3</aspectjrt.version>
 		<apache-commons-lang3.version>3.1</apache-commons-lang3.version>
-		<kurava.version>0.0.1-SNAPSHOT</kurava.version>
+		<kurava.version>0.0.2-SNAPSHOT</kurava.version>
 		<slf4j.version>1.7.2</slf4j.version>
 		<jackson-mapper-asl.version>1.9.12</jackson-mapper-asl.version>
 		<tomcat6-maven-plugin.version>2.0</tomcat6-maven-plugin.version>

@@ -3,7 +3,7 @@ package pl.kurylek.junktion.test.builders;
 import java.util.Date;
 
 import pl.kurylek.junktion.domain.Document;
-import pl.kurylek.utils.test.builders.Builder;
+import pl.kurylek.utils.builders.Builder;
 
 public class DocumentBuilder extends Builder<Document> {
 
