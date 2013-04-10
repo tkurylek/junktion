@@ -1,12 +1,15 @@
 package pl.kurylek.junktion.services;
 
 import static org.fest.assertions.Assertions.assertThat;
+import static pl.kurylek.utils.tests.assertion.ThrowableAssertions.assertThrowable;
+import static pl.kurylek.utils.tests.catcher.ExceptionCatcher.tryToCatch;
 
 import java.util.Date;
 
 import org.junit.Test;
 
 import pl.kurylek.junktion.services.exceptions.FormattedDateParsingException;
+import pl.kurylek.utils.tests.catcher.ThrowableOperation;
 
 public class DateFormatterServiceTest {
 
@@ -41,17 +44,19 @@ public class DateFormatterServiceTest {
     @Test
     public void shouldThrowExceptionOnBadlyFormattedDate() {
 	// given
-	String badlyFormattedDate = "01/01/1970 1:00am";
+	final String badlyFormattedDate = "01/01/1970 1:00am";
 
 	// when
-	FormattedDateParsingException caughtException = null;
-	try {
-	    dateFormatterService.getDate(badlyFormattedDate);
-	} catch (FormattedDateParsingException e) {
-	    caughtException = e;
-	}
+	FormattedDateParsingException caughtException = tryToCatch(FormattedDateParsingException.class,
+		new ThrowableOperation() {
+
+		    @Override
+		    public void operate() throws Exception {
+			dateFormatterService.getDate(badlyFormattedDate);
+		    }
+		});
 
 	// then
-	assertThat(caughtException).isNotNull();
+	assertThrowable(caughtException).isThrown();
     }
 }

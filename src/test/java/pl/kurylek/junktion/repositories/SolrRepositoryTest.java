@@ -1,8 +1,9 @@
 package pl.kurylek.junktion.repositories;
 
-import static org.fest.assertions.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static pl.kurylek.junktion.builders.SolrQueryBuilder.aQuery;
+import static pl.kurylek.utils.tests.assertion.ThrowableAssertions.assertThrowable;
+import static pl.kurylek.utils.tests.catcher.ExceptionCatcher.tryToCatch;
 
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServer;
@@ -15,6 +16,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import pl.kurylek.junktion.repositories.exceptions.SolrRepositoryException;
+import pl.kurylek.utils.tests.catcher.ThrowableOperation;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SolrRepositoryTest {
@@ -30,36 +32,42 @@ public class SolrRepositoryTest {
     @Test
     public void shouldThrowSolrRepositoryExceptionWhenQueryingUnreachableServer() throws Exception {
 	// given
-	SolrQuery query = aQuery().build();
+	final SolrQuery query = aQuery().build();
 	SolrServerException solrServerException = new SolrServerException(ANY_EXCEPTION_MESSAGE);
 	given(mockedSolrServer.query(query)).willThrow(solrServerException);
 
 	// when
-	SolrRepositoryException caughtException = null;
-	try {
-	    solrRepository.query(query);
-	} catch (SolrRepositoryException e) {
-	    caughtException = e;
-	}
+	SolrRepositoryException caughtException = tryToCatch(SolrRepositoryException.class,
+		new ThrowableOperation() {
+
+		    @Override
+		    public void operate() throws Exception {
+			solrRepository.query(query);
+		    }
+		});
+
 	// then
-	assertThat(caughtException).isNotNull();
+	assertThrowable(caughtException).isThrown();
     }
 
     @Test
     public void shouldThrowSolrRepositoryExceptionWhenRequestingUnreachableServer() throws Exception {
 	// given
-	QueryRequest queryRequest = new QueryRequest();
+	final QueryRequest queryRequest = new QueryRequest();
 	SolrServerException solrServerException = new SolrServerException(ANY_EXCEPTION_MESSAGE);
 	given(mockedSolrServer.request(queryRequest)).willThrow(solrServerException);
 
 	// when
-	SolrRepositoryException caughtException = null;
-	try {
-	    solrRepository.request(queryRequest);
-	} catch (SolrRepositoryException e) {
-	    caughtException = e;
-	}
+	SolrRepositoryException caughtException = tryToCatch(SolrRepositoryException.class,
+		new ThrowableOperation() {
+
+		    @Override
+		    public void operate() throws Exception {
+			solrRepository.request(queryRequest);
+		    }
+		});
+
 	// then
-	assertThat(caughtException).isNotNull();
+	assertThrowable(caughtException).isThrown();
     }
 }

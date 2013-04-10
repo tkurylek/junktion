@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 
 import pl.kurylek.junktion.domain.Document;
 import pl.kurylek.junktion.snapshots.DocumentSnaphot;
-import pl.kurylek.utils.mappers.Mapper;
-import pl.kurylek.utils.mappers.MappingStrategy;
+import pl.kurylek.utils.mapper.Mapper;
+import pl.kurylek.utils.mapper.MappingStrategy;
 
 @Service
 public class DocumentMapperService extends Mapper<Document, DocumentSnaphot> {
