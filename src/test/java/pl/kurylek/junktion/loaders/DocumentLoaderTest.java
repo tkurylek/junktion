@@ -2,6 +2,7 @@ package pl.kurylek.junktion.loaders;
 
 import static org.fest.assertions.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
+import static pl.kurylek.utils.tests.assertion.ThrowableAssertions.assertThrowable;
 import static pl.kurylek.utils.tests.catcher.ExceptionCatcher.tryToCatch;
 
 import org.apache.solr.client.solrj.response.QueryResponse;
@@ -15,7 +16,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import pl.kurylek.junktion.loaders.exceptions.DocumentNotFoundException;
 import pl.kurylek.junktion.repositories.DocumentRepository;
-import pl.kurylek.utils.tests.assertion.ThrowableAssertions;
 import pl.kurylek.utils.tests.catcher.ThrowableOperation;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -65,7 +65,7 @@ public class DocumentLoaderTest {
 		});
 
 	// then
-	ThrowableAssertions.assertThrowable(caughtException).isThrown();
+	assertThrowable(caughtException).isThrown();
     }
 
     private SolrDocumentList createNotEmptySolrDocumentList() {
