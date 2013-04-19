@@ -13,7 +13,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import pl.kurylek.junktion.domain.Document;
-import pl.kurylek.utils.tests.catcher.ThrowableOperation;
+import pl.kurylek.utils.tests.catcher.ExceptionalOperation;
 
 @ContextConfiguration(locations = { "classpath:spring/database-context.xml",
 	"classpath:spring/servlet-context.xml" })
@@ -27,7 +27,7 @@ public abstract class SolrIntegrationTestBase {
     protected SolrServer solrServer;
 
     protected void savedInRepository(final Document... documents) {
-	tryToPerformDatabaseOperation(new ThrowableOperation() {
+	tryToPerformDatabaseOperation(new ExceptionalOperation() {
 
 	    @Override
 	    public void operate() throws Exception {
@@ -39,7 +39,7 @@ public abstract class SolrIntegrationTestBase {
 	});
     }
 
-    protected void tryToPerformDatabaseOperation(ThrowableOperation solrTestInsanceOperation) {
+    protected void tryToPerformDatabaseOperation(ExceptionalOperation solrTestInsanceOperation) {
 	try {
 	    solrTestInsanceOperation.operate();
 	} catch (Exception e) {

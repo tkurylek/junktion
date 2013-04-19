@@ -16,7 +16,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import pl.kurylek.junktion.loaders.exceptions.DocumentNotFoundException;
 import pl.kurylek.junktion.repositories.DocumentRepository;
-import pl.kurylek.utils.tests.catcher.ThrowableOperation;
+import pl.kurylek.utils.tests.catcher.ExceptionalOperation;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DocumentLoaderTest {
@@ -56,7 +56,7 @@ public class DocumentLoaderTest {
 
 	// when
 	DocumentNotFoundException caughtException = tryToCatch(DocumentNotFoundException.class,
-		new ThrowableOperation() {
+		new ExceptionalOperation() {
 
 		    @Override
 		    public void operate() throws Exception {

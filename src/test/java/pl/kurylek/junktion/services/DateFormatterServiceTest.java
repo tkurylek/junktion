@@ -9,7 +9,7 @@ import java.util.Date;
 import org.junit.Test;
 
 import pl.kurylek.junktion.services.exceptions.FormattedDateParsingException;
-import pl.kurylek.utils.tests.catcher.ThrowableOperation;
+import pl.kurylek.utils.tests.catcher.ExceptionalOperation;
 
 public class DateFormatterServiceTest {
 
@@ -48,7 +48,7 @@ public class DateFormatterServiceTest {
 
 	// when
 	FormattedDateParsingException caughtException = tryToCatch(FormattedDateParsingException.class,
-		new ThrowableOperation() {
+		new ExceptionalOperation() {
 
 		    @Override
 		    public void operate() throws Exception {

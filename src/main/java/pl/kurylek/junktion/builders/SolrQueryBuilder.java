@@ -4,21 +4,21 @@ import static org.apache.commons.lang3.StringUtils.join;
 
 import org.apache.solr.client.solrj.SolrQuery;
 
-public class SolrQueryBuilder {
+import pl.kurylek.utils.builder.Builder;
+
+public class SolrQueryBuilder extends Builder<SolrQuery> {
 
     private static final String BOOST_PREFIX = "^";
     public static final String QUERY_EDISMAX = "edismax";
     public static final String QUERY_PARSER_TYPE_PARAMETER = "defType";
     public static final String QUERY_FIELDS_PARAMETER = "qf";
     public static final String MULTIPLE_QUERY_VALUES_SEPARATOR = " ";
-    private final SolrQuery solrQuery;
 
-    private SolrQueryBuilder() {
-	solrQuery = new SolrQuery();
+    public SolrQueryBuilder() {
     }
 
     private SolrQueryBuilder(String query) {
-	solrQuery = new SolrQuery(query);
+	getBuiltObject().setQuery(query);
     }
 
     public static SolrQueryBuilder aQuery() {
@@ -30,7 +30,7 @@ public class SolrQueryBuilder {
     }
 
     public SolrQueryBuilder withinFields(String... fields) {
-	solrQuery.set(QUERY_FIELDS_PARAMETER, join(fields, MULTIPLE_QUERY_VALUES_SEPARATOR));
+	getBuiltObject().set(QUERY_FIELDS_PARAMETER, join(fields, MULTIPLE_QUERY_VALUES_SEPARATOR));
 	return this;
     }
 
@@ -39,22 +39,22 @@ public class SolrQueryBuilder {
     }
 
     public SolrQueryBuilder withQueryParser(String queryParser) {
-	solrQuery.set(QUERY_PARSER_TYPE_PARAMETER, queryParser);
+	getBuiltObject().set(QUERY_PARSER_TYPE_PARAMETER, queryParser);
 	return this;
     }
 
     public SolrQueryBuilder withEnabledHighlighting() {
-	solrQuery.setHighlight(true);
+	getBuiltObject().setHighlight(true);
 	return this;
     }
 
     public SolrQueryBuilder withNumberOfHighlightedSnippets(int quantity) {
-	solrQuery.setHighlightSnippets(quantity);
+	getBuiltObject().setHighlightSnippets(quantity);
 	return this;
     }
 
     public SolrQueryBuilder withinField(String field) {
-	solrQuery.set(QUERY_FIELDS_PARAMETER, field);
+	getBuiltObject().set(QUERY_FIELDS_PARAMETER, field);
 	return this;
     }
 
@@ -64,10 +64,10 @@ public class SolrQueryBuilder {
     }
 
     private void append(String name, String value) {
-	if (solrQuery.get(name) != null) {
-	    solrQuery.set(name, solrQuery.get(name) + " " + value);
+	if (getBuiltObject().get(name) != null) {
+	    getBuiltObject().set(name, getBuiltObject().get(name) + " " + value);
 	} else {
-	    solrQuery.set(name, value);
+	    getBuiltObject().set(name, value);
 	}
     }
 
@@ -77,7 +77,7 @@ public class SolrQueryBuilder {
     }
 
     public SolrQueryBuilder withinBoostedField(String field, String boost) {
-	solrQuery.set(QUERY_FIELDS_PARAMETER, field + BOOST_PREFIX + boost);
+	getBuiltObject().set(QUERY_FIELDS_PARAMETER, field + BOOST_PREFIX + boost);
 	return this;
     }
 
@@ -92,11 +92,7 @@ public class SolrQueryBuilder {
     }
 
     public SolrQueryBuilder wtihSkippingFirst(int skip) {
-	solrQuery.setStart(skip);
+	getBuiltObject().setStart(skip);
 	return this;
-    }
-
-    public SolrQuery build() {
-	return solrQuery;
     }
 }

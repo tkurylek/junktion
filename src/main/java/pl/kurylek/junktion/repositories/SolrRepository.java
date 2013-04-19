@@ -37,7 +37,7 @@ public class SolrRepository {
 	    return solrServer.request(request);
 	} catch (SolrServerException | IOException e) {
 	    logger.error("Could not execute request to " + request.getPath(), e);
-	    throw new SolrRepositoryException(e);
+	    throw new SolrRepositoryException("Could not execute request to " + request.getPath(), e);
 	}
     }
 }

@@ -16,7 +16,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import pl.kurylek.junktion.repositories.exceptions.SolrRepositoryException;
-import pl.kurylek.utils.tests.catcher.ThrowableOperation;
+import pl.kurylek.utils.tests.catcher.ExceptionalOperation;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SolrRepositoryTest {
@@ -38,7 +38,7 @@ public class SolrRepositoryTest {
 
 	// when
 	SolrRepositoryException caughtException = tryToCatch(SolrRepositoryException.class,
-		new ThrowableOperation() {
+		new ExceptionalOperation() {
 
 		    @Override
 		    public void operate() throws Exception {
@@ -59,7 +59,7 @@ public class SolrRepositoryTest {
 
 	// when
 	SolrRepositoryException caughtException = tryToCatch(SolrRepositoryException.class,
-		new ThrowableOperation() {
+		new ExceptionalOperation() {
 
 		    @Override
 		    public void operate() throws Exception {

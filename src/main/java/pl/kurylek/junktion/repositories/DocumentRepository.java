@@ -30,10 +30,10 @@ public class DocumentRepository {
 
     public QueryResponse queryByContentOrAuthorOrTitleOrPath(String phrase, int skip) {
 	logger.debug("Query for phrase: " + phrase + ", skipping first " + skip + " results.");
-	return solrRepository.query(buildQueryByContentOrAuthorOrTitleOtPath(phrase, skip));
+	return solrRepository.query(buildQueryByContentOrAuthorOrTitleOrPath(phrase, skip));
     }
 
-    private SolrQuery buildQueryByContentOrAuthorOrTitleOtPath(String phrase, int skip) {
+    private SolrQuery buildQueryByContentOrAuthorOrTitleOrPath(String phrase, int skip) {
 	return aQuery(phrase).withinField(CONTENT_FIELD).orWithinField(AUTHOR_FIELD)
 		.orWithinBoostedField(TITLE_FIELD, TITLE_FIELD_BOOST)
 		.orWithinBoostedField(PATH_FIELD, PATH_FIELD_BOOST).withExtendedDisjunctionMax()
